@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerListHud.class)
-public class PlayerListHudMixin {
+public abstract class PlayerListHudMixin {
 
     @Shadow @Final
     private MinecraftClient client;

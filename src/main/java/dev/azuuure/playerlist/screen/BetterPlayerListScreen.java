@@ -11,7 +11,7 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-public class BetterPlayerListScreen extends GameOptionsScreen {
+public final class BetterPlayerListScreen extends GameOptionsScreen {
 
     public BetterPlayerListScreen(Screen parent) {
         super(

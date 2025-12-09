@@ -2,8 +2,11 @@ package dev.azuuure.playerlist.utils;
 
 import net.fabricmc.loader.api.FabricLoader;
 
-public class Constants {
+public final class Constants {
 
+    private Constants() {
+        throw new UnsupportedOperationException();
+    }
     /**
      * The ID of the mod.
      */

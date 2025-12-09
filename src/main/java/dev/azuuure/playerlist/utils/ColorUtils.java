@@ -1,6 +1,6 @@
 package dev.azuuure.playerlist.utils;
 
-public class ColorUtils {
+public final class ColorUtils {
 
     public static final int EXCELLENT = 0x8CF985;
     public static final int GOOD = 0x1C9115;
@@ -8,6 +8,10 @@ public class ColorUtils {
     public static final int BAD = 0xFD4B4B;
     public static final int VERY_BAD = 0xFF0000;
     public static final int HORRIBLE = 0x8F0000;
+
+    private ColorUtils() {
+        throw new UnsupportedOperationException();
+    }
 
     public static int latencyToColor(int ms) {
         if (ms < 100) {

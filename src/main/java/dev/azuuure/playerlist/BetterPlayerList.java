@@ -7,7 +7,7 @@ import net.fabricmc.api.ClientModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BetterPlayerList implements ClientModInitializer {
+public final class BetterPlayerList implements ClientModInitializer {
 
     private static BetterPlayerList instance;
     private Logger logger;
