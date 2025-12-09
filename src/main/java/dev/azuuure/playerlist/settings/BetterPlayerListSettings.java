@@ -1,10 +1,12 @@
 package dev.azuuure.playerlist.settings;
 
+import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
+
 public final class BetterPlayerListSettings {
 
     private boolean header;
     private boolean footer;
-    private boolean replaceLatencySymbols;
+    private LatencyDisplayMode latencyDisplayMode;
     private boolean shouldHold;
     private boolean shouldDisplayList;
     private boolean shouldRenderHeads;
@@ -13,7 +15,7 @@ public final class BetterPlayerListSettings {
     public BetterPlayerListSettings() {
         this.header = true;
         this.footer = true;
-        this.replaceLatencySymbols = true;
+        this.latencyDisplayMode = LatencyDisplayMode.FULL_SIZE;
         this.shouldHold = true;
         this.shouldDisplayList = false;
         this.shouldRenderHeads = true;
@@ -34,14 +36,6 @@ public final class BetterPlayerListSettings {
 
     public void setFooter(boolean footer) {
         this.footer = footer;
-    }
-
-    public boolean shouldReplaceLatencySymbols() {
-        return replaceLatencySymbols;
-    }
-
-    public void setReplaceLatencySymbols(boolean replaceLatencySymbols) {
-        this.replaceLatencySymbols = replaceLatencySymbols;
     }
 
     public boolean shouldHold() {
@@ -74,5 +68,13 @@ public final class BetterPlayerListSettings {
 
     public void setForceHeads(boolean forceHeads) {
         this.forceHeads = forceHeads;
+    }
+
+    public LatencyDisplayMode getLatencyDisplayMode() {
+        return latencyDisplayMode;
+    }
+
+    public void setLatencyDisplayMode(LatencyDisplayMode latencyDisplayMode) {
+        this.latencyDisplayMode = latencyDisplayMode;
     }
 }

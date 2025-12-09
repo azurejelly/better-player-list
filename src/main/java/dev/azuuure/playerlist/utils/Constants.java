@@ -19,9 +19,4 @@ public class Constants {
             .getModContainer(MOD_ID)
             .map(mod -> mod.getMetadata().getVersion().getFriendlyString())
             .orElse("{unknown}");
-
-    /**
-     * The scale applied to the latency numbers on the player list.
-     */
-    public static float LATENCY_TEXT_SCALE = 0.5f;
 }

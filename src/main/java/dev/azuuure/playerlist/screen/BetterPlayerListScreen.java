@@ -1,6 +1,7 @@
 package dev.azuuure.playerlist.screen;
 
 import dev.azuuure.playerlist.BetterPlayerList;
+import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
@@ -26,6 +27,7 @@ public class BetterPlayerListScreen extends GameOptionsScreen {
             return;
         }
 
+        var client = this.client != null ? this.client : MinecraftClient.getInstance();
         var settings = BetterPlayerList.getInstance().getSettings();
         var header = CyclingButtonWidget.onOffBuilder()
                 .initially(settings.isHeaderEnabled())
@@ -45,26 +47,36 @@ public class BetterPlayerListScreen extends GameOptionsScreen {
                 ).build(Text.translatable("better-player-list.settings.footer"),
                         (w, v) -> settings.setFooter(v));
 
-        var hold = CyclingButtonWidget.onOffBuilder()
-                .initially(settings.shouldHold())
+        var hold = CyclingButtonWidget
+                .onOffBuilder(
+                        Text.translatable("better-player-list.settings.key.hold"),
+                        Text.translatable("better-player-list.settings.key.toggle")
+                ).initially(settings.shouldHold())
                 .tooltip((v) ->
                         Tooltip.of(
-                                Text.translatable("better-player-list.settings.hold.tooltip")
+                                Text.translatable("better-player-list.settings.key.tooltip",
+                                        Text.translatable(client.options.playerListKey.getBoundKeyTranslationKey())
+                                                .styled(s -> s.withBold(true))
+                                )
                         )
-                ).build(Text.translatable("better-player-list.settings.hold"),
+                ).build(Text.translatable("better-player-list.settings.key"),
                         (w, v) -> settings.setShouldHold(v));
 
         var symbols = CyclingButtonWidget
-                .onOffBuilder(
-                        Text.translatable("better-player-list.settings.latency-symbols.numbers"),
-                        Text.translatable("better-player-list.settings.latency-symbols.vanilla")
-                ).initially(settings.shouldReplaceLatencySymbols())
-                .tooltip((v) ->
-                        Tooltip.of(
-                                Text.translatable("better-player-list.settings.latency-symbols.tooltip")
-                        )
-                ).build(Text.translatable("better-player-list.settings.latency-symbols"),
-                        (w, v) -> settings.setReplaceLatencySymbols(v));
+                .builder(d -> ((LatencyDisplayMode) d).getName())
+                .values(LatencyDisplayMode.values())
+                .initially(settings.getLatencyDisplayMode())
+                .tooltip((v) -> {
+                    var mode = (LatencyDisplayMode) v;
+                    var path = mode.getPath();
+                    return Tooltip.of(Text.translatable(path + ".tooltip"));
+                }).build(
+                        Text.translatable("better-player-list.settings.latency-symbols"),
+                        (w, v) -> {
+                            var mode = (LatencyDisplayMode) v;
+                            settings.setLatencyDisplayMode(mode);
+                        }
+                );
 
         var forceHeads = CyclingButtonWidget.onOffBuilder()
                 .initially(settings.forcesHeads())
