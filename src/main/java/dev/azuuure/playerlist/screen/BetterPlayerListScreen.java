@@ -1,6 +1,7 @@
 package dev.azuuure.playerlist.screen;
 
 import dev.azuuure.playerlist.BetterPlayerList;
+import dev.azuuure.playerlist.settings.BetterPlayerListSettings;
 import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -13,12 +14,16 @@ import java.util.List;
 
 public final class BetterPlayerListScreen extends GameOptionsScreen {
 
+    private final BetterPlayerListSettings settings;
+
     public BetterPlayerListScreen(Screen parent) {
         super(
                 parent,
                 MinecraftClient.getInstance().options,
                 Text.translatable("better-player-list.settings.title")
         );
+
+        this.settings = BetterPlayerList.getInstance().getSettings();
     }
 
     @Override
@@ -27,8 +32,8 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
             return;
         }
 
+        // just in case because i do not trust minecraft
         var client = this.client != null ? this.client : MinecraftClient.getInstance();
-        var settings = BetterPlayerList.getInstance().getSettings();
         var header = CyclingButtonWidget.onOffBuilder()
                 .initially(settings.isHeaderEnabled())
                 .tooltip((v) ->
@@ -87,6 +92,10 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
                 ).build(Text.translatable("better-player-list.settings.force-heads"),
                         (w, v) -> settings.setForceHeads(v));
 
+        if (!settings.shouldRenderHeads()) {
+            forceHeads.active = false;
+        }
+
         var renderHeads = CyclingButtonWidget.onOffBuilder()
                 .initially(settings.shouldRenderHeads())
                 .tooltip((v) ->
@@ -107,6 +116,6 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
     @Override
     public void close() {
         super.close();
-        // TODO: save configuration
+        settings.save();
     }
 }

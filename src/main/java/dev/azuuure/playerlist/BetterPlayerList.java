@@ -18,6 +18,7 @@ public final class BetterPlayerList implements ClientModInitializer {
         instance = this;
         logger = LoggerFactory.getLogger(BetterPlayerList.class);
         settings = new BetterPlayerListSettings();
+        settings.load();
 
         new ClientTickEventsListener().register();
 

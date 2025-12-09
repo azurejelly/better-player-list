@@ -22,4 +22,16 @@ public final class Constants {
             .getModContainer(MOD_ID)
             .map(mod -> mod.getMetadata().getVersion().getFriendlyString())
             .orElse("{unknown}");
+
+    /**
+     * The name of the mod configuration file.
+     */
+    public static final String CONFIGURATION_FILE = MOD_ID + ".properties";
+
+    public static final int COLOR_EXCELLENT = 0xA1FF30;
+    public static final int COLOR_GOOD = 0x1C9115;
+    public static final int COLOR_DECENT = 0xFCE956;
+    public static final int COLOR_BAD = 0xFD4B4B;
+    public static final int COLOR_VERY_BAD = 0xFF0000;
+    public static final int COLOR_HORRIBLE = 0x8F0000;
 }
