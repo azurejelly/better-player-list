@@ -90,7 +90,15 @@ public class PlayerListHudMixin {
         matrices.pushMatrix();
         matrices.scale(Constants.LATENCY_TEXT_SCALE);
 
-        var text = Text.literal(String.valueOf(latency)).withColor(color);
+        Text text;
+        if (latency < 9999) {
+            text = Text.literal(String.valueOf(latency)).withColor(color);
+        } else {
+            // do not display anything higher to prevent text from
+            // rendering over (or below) the player username
+            text = Text.literal("9999").withColor(color);
+        }
+
         var maxX = (int)((x + width - 2) / Constants.LATENCY_TEXT_SCALE);
         var drawX = maxX - renderer.getWidth(text);
         var drawY = (int)(y / Constants.LATENCY_TEXT_SCALE + 5);
@@ -114,6 +122,7 @@ public class PlayerListHudMixin {
             return value;
         }
 
+        // give a little more space for the numbers to display correctly
         return value + 1;
     }
 }
