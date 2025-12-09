@@ -5,7 +5,9 @@
   "name": "BetterPlayerList",
   "description": "Various enhancements for the Minecraft player list.",
   "authors": [ "azurejelly" ],
-  "contact": {},
+  "contact": {
+    "sources": "https://github.com/azurejelly/better-player-list"
+  },
   "license": "MIT",
   "icon": "assets/better-player-list/icon.png",
   "environment": "client",
@@ -23,6 +25,9 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "~${minecraft_version}"
+  },
+  "suggests": {
+    "modmenu": "*"
   }
 }
