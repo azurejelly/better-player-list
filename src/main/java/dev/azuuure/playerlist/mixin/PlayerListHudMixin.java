@@ -1,6 +1,7 @@
 package dev.azuuure.playerlist.mixin;
 
 import dev.azuuure.playerlist.BetterPlayerList;
+import dev.azuuure.playerlist.utils.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.PlayerListHud;
@@ -66,8 +67,9 @@ public class PlayerListHudMixin {
             return;
         }
 
-        var latency = entry.getLatency();
+        int latency = entry.getLatency();
         int color;
+
         if (latency < 100) {
             color = 0x8cf985;
         } else if (latency < 150) {
@@ -82,17 +84,16 @@ public class PlayerListHudMixin {
             color = 0x8f0000;
         }
 
-        float scale = 0.5f;
         var renderer = client.textRenderer;
         var matrices = ctx.getMatrices();
 
         matrices.pushMatrix();
-        matrices.scale(scale);
+        matrices.scale(Constants.LATENCY_TEXT_SCALE);
 
         var text = Text.literal(String.valueOf(latency)).withColor(color);
-        var maxX = (int)((x + width - 2) / scale);
+        var maxX = (int)((x + width - 2) / Constants.LATENCY_TEXT_SCALE);
         var drawX = maxX - renderer.getWidth(text);
-        var drawY = (int)(y / scale + 5);
+        var drawY = (int)(y / Constants.LATENCY_TEXT_SCALE + 5);
 
         // i have no idea what -1 ("color"?) is, but if i change it the entire text
         // for some reason stops rendering. i will simply assume it does not exist
@@ -103,12 +104,16 @@ public class PlayerListHudMixin {
         ci.cancel();
     }
 
-//    @ModifyVariable(
-//            method = "render",
-//            at = @At(value = "STORE"),
-//            name = "s"
-//    )
-//    public int modifyOffset(int value) {
-//        return value + 25;
-//    }
+    @ModifyVariable(
+            method = "render",
+            at = @At(value = "STORE"),
+            name = "j"
+    )
+    public int expandEntries(int value) {
+        if (!BetterPlayerList.getInstance().getSettings().shouldReplaceLatencySymbols()) {
+            return value;
+        }
+
+        return value + 1;
+    }
 }
