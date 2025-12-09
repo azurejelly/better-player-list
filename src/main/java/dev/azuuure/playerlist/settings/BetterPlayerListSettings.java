@@ -7,13 +7,17 @@ public final class BetterPlayerListSettings {
     private boolean replaceLatencySymbols;
     private boolean shouldHold;
     private boolean shouldDisplayList;
+    private boolean shouldRenderHeads;
+    private boolean forceHeads;
 
     public BetterPlayerListSettings() {
-        this.header = false;
+        this.header = true;
         this.footer = true;
         this.replaceLatencySymbols = true;
         this.shouldHold = true;
         this.shouldDisplayList = false;
+        this.shouldRenderHeads = true;
+        this.forceHeads = false;
     }
 
     public boolean isHeaderEnabled() {
@@ -54,5 +58,21 @@ public final class BetterPlayerListSettings {
 
     public void setShouldDisplayList(boolean shouldDisplayList) {
         this.shouldDisplayList = shouldDisplayList;
+    }
+
+    public boolean shouldRenderHeads() {
+        return shouldRenderHeads;
+    }
+
+    public void setShouldRenderHeads(boolean shouldRenderHeads) {
+        this.shouldRenderHeads = shouldRenderHeads;
+    }
+
+    public boolean forcesHeads() {
+        return forceHeads;
+    }
+
+    public void setForceHeads(boolean forceHeads) {
+        this.forceHeads = forceHeads;
     }
 }

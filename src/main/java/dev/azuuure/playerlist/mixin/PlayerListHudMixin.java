@@ -125,4 +125,23 @@ public class PlayerListHudMixin {
         // give a little more space for the numbers to display correctly
         return value + 1;
     }
+
+    @ModifyVariable(
+            method = "render",
+            at = @At(value = "STORE"),
+            name = "bl"
+    )
+    public boolean renderPlayerHeads(boolean value) {
+        var settings = BetterPlayerList.getInstance().getSettings();
+
+        if (!settings.shouldRenderHeads()) {
+            return false;
+        }
+
+        if (settings.forcesHeads()) {
+            return true;
+        }
+
+        return value;
+    }
 }
