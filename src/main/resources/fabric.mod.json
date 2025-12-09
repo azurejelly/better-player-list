@@ -3,7 +3,7 @@
   "id": "better-player-list",
   "version": "${version}",
   "name": "BetterPlayerList",
-  "description": "Various enhancements for the Minecraft player list.",
+  "description": "Various enhancements for the Minecraft player list, such as numeric ping instead of connection bars.",
   "authors": [ "azurejelly" ],
   "contact": {
     "sources": "https://github.com/azurejelly/better-player-list"
