@@ -132,15 +132,15 @@ public abstract class PlayerListHudMixin {
                 break;
             }
             case COMPACT_WITH_UNIT: {
-                constant += 7;
+                constant += 10;
                 break;
             }
             case DISABLED: {
-                constant -= 3;
+                constant -= 5;
                 break;
             }
             case FULL_SIZE: {
-                constant += 23;
+                constant += 26;
                 break;
             }
             default: {
