@@ -2,10 +2,10 @@
   "better-player-list.settings.title": "Player List Options",
 
   "better-player-list.settings.header": "Header",
-  "better-player-list.settings.header.tooltip": "Shows or hides the header sent by the server.",
+  "better-player-list.settings.header.tooltip": "Whether to show the header sent by the server.",
 
   "better-player-list.settings.footer": "Footer",
-  "better-player-list.settings.footer.tooltip": "Shows or hides the footer sent by the server.",
+  "better-player-list.settings.footer.tooltip": "Whether to show the footer sent by the server.",
 
   "better-player-list.settings.hold": "Hold",
   "better-player-list.settings.hold.tooltip": "If enabled, the list stays visible only while its key is held. If disabled, the key acts as a toggle.",
