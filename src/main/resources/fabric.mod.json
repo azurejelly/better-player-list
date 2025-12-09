@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "better-player-list",
+  "version": "${version}",
+  "name": "BetterPlayerList",
+  "description": "Various enhancements for the Minecraft player list.",
+  "authors": [ "azurejelly" ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/better-player-list/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.azuuure.playerlist.BetterPlayerList"
+    ]
+  },
+  "mixins": [
+    "better-player-list.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
