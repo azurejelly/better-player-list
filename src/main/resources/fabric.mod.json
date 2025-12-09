@@ -12,6 +12,9 @@
   "entrypoints": {
     "client": [
       "dev.azuuure.playerlist.BetterPlayerList"
+    ],
+    "modmenu": [
+      "dev.azuuure.playerlist.compatibility.ModMenuApiImpl"
     ]
   },
   "mixins": [
