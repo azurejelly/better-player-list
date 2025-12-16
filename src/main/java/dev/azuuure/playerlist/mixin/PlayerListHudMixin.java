@@ -153,8 +153,8 @@ public abstract class PlayerListHudMixin {
 
     @ModifyVariable(
             method = "render",
-            at = @At(value = "STORE"),
-            name = "bl"
+            at = @At("STORE"),
+            ordinal = 0
     )
     public boolean renderPlayerHeads(boolean value) {
         var settings = BetterPlayerList.getInstance().getSettings();
