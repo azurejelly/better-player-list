@@ -7,8 +7,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import org.joml.Matrix3x2fStack;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -89,16 +89,16 @@ public abstract class PlayerListHudMixin {
             case COMPACT_WITH_UNIT:
             case COMPACT: {
                 float scale = 0.5f;
-                Matrix3x2fStack matrices = ctx.getMatrices();
-                matrices.pushMatrix();
-                matrices.scale(scale);
+                MatrixStack matrices = ctx.getMatrices();
+                matrices.push();
+                matrices.scale(scale, scale, scale);
 
                 int maxX = (int)((x + width - 2) / scale);
                 int drawX = maxX - renderer.getWidth(text);
                 int drawY = (int)(y / scale + 5);
                 ctx.drawTextWithShadow(renderer, text, drawX, drawY, -1);
 
-                matrices.popMatrix();
+                matrices.pop();
                 break;
             }
             case FULL_SIZE: {
