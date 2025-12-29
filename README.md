@@ -1,4 +1,4 @@
-# Better Player List ![Downloads](https://img.shields.io/modrinth/dt/better-player-list?logo=modrinth&color=00AF5C) ![Game version](https://img.shields.io/modrinth/game-versions/better-player-list?logo=modrinth&color=00AF5C)
+# Better Player List [![Gradle](https://github.com/azurejelly/better-player-list/actions/workflows/gradle.yml/badge.svg)](https://github.com/azurejelly/better-player-list/actions/workflows/gradle.yml) ![Downloads](https://img.shields.io/modrinth/dt/better-player-list?logo=modrinth&color=00AF5C) ![Game version](https://img.shields.io/modrinth/game-versions/better-player-list?logo=modrinth&color=00AF5C)
 Various Minecraft player list enhancements, such as numeric ping instead of connection bars.
 
 ## Features
