@@ -22,8 +22,6 @@ public final class BetterPlayerListSettings {
     private boolean forceHeads;
 
     public BetterPlayerListSettings() {
-        this.file = new File(MinecraftClient.getInstance().runDirectory, Constants.CONFIGURATION_FILE);
-        this.properties = new Properties();
         this.header = true;
         this.footer = true;
         this.latencyDisplayMode = LatencyDisplayMode.FULL_SIZE;
@@ -31,6 +29,13 @@ public final class BetterPlayerListSettings {
         this.shouldDisplayList = false;
         this.shouldRenderHeads = true;
         this.forceHeads = false;
+        this.properties = new Properties();
+        this.file = new File(
+                MinecraftClient.getInstance().runDirectory,
+                Constants.CONFIGURATION_FOLDER
+                        + File.separator
+                        + Constants.CONFIGURATION_FILE_NAME
+        );
     }
 
     public void load() {
