@@ -48,14 +48,8 @@ sourceSets {
 }
 
 val generateModMetadata by tasks.registering(ProcessResources::class) {
-    val id = rootProject.property("mod_id")
-    from("src/main/resources") {
-        include("assets/$id/icon.png")
-        rename { "icon.png" }
-    }
-
     val replaceProperties = mapOf(
-        "mod_id"                  to id,
+        "mod_id"                  to rootProject.property("mod_id"),
         "mod_name"                to rootProject.property("mod_name"),
         "mod_description"         to rootProject.property("mod_description"),
         "mod_license"             to rootProject.property("license"),

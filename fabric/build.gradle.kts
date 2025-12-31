@@ -7,6 +7,17 @@ base {
     archivesName.set("${project.property("archive_base_name")}-fabric")
 }
 
+loom {
+    runs {
+        named("client") {
+            client()
+            ideConfigGenerated(true)
+            runDir("run")
+            configName = "Fabric/Client"
+        }
+    }
+}
+
 dependencies {
     include(project(":common"))
     implementation(project(":common"))
@@ -25,24 +36,19 @@ dependencies {
 }
 
 tasks.processResources {
-    inputs.property("version", project.version)
-    inputs.property("minecraft_version", libs.versions.minecraft.get())
-    inputs.property("loader_version", libs.versions.fabric.loader.get())
-
     filteringCharset = "UTF-8"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
+    from(project(":common").sourceSets.main.get().resources)
     filesMatching("fabric.mod.json") {
         expand(
-            mapOf(
-                "version" to project.version,
-                "minecraft_version" to libs.versions.minecraft.get(),
-                "loader_version" to libs.versions.fabric.loader.get(),
-                "mod_id" to rootProject.property("mod_id"),
-                "mod_name" to rootProject.property("mod_name"),
-                "mod_description" to rootProject.property("mod_description"),
-                "license" to rootProject.property("license")
-            )
+            "version" to project.version,
+            "minecraft_version" to libs.versions.minecraft.get(),
+            "loader_version" to libs.versions.fabric.loader.get(),
+            "mod_id" to rootProject.property("mod_id").toString(),
+            "mod_name" to rootProject.property("mod_name").toString(),
+            "mod_description" to rootProject.property("mod_description").toString(),
+            "license" to rootProject.property("license").toString()
         )
     }
 }
-

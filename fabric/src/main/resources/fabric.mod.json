@@ -9,7 +9,7 @@
     "sources": "https://github.com/azurejelly/better-player-list"
   },
   "license": "${license}",
-  "icon": "assets/${mod_id}/icon.png",
+  "icon": "mod-icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [

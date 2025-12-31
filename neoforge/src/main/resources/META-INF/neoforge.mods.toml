@@ -8,7 +8,7 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 displayURL="https://github.com/azurejelly/better-player-list"
-logoFile="icon.png"
+logoFile="mod-icon.png"
 authors="azurejelly"
 description='''${mod_description}'''
 
