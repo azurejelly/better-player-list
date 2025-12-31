@@ -10,7 +10,6 @@ repositories {
 
 dependencies {
     implementation(project(":common"))
-
     runtimeOnly(libs.devauth.neoforge)
 }
 
@@ -62,6 +61,7 @@ val generateModMetadata by tasks.registering(ProcessResources::class) {
     inputs.properties(replaceProperties)
     expand(replaceProperties)
 
+    from("src/main/templates")
     into(layout.buildDirectory.dir("generated/sources/modMetadata"))
 }
 

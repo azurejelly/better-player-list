@@ -1,8 +1,8 @@
 package dev.azuuure.playerlist.fabric.screen;
 
 import dev.azuuure.playerlist.fabric.BetterPlayerList;
-import dev.azuuure.playerlist.fabric.settings.BetterPlayerListSettings;
-import dev.azuuure.playerlist.settings.LatencyDisplayMode;
+import dev.azuuure.playerlist.settings.BetterPlayerListSettings;
+import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
@@ -10,6 +10,7 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.text.Text;
 
+import java.io.IOException;
 import java.util.List;
 
 public final class BetterPlayerListScreen extends GameOptionsScreen {
@@ -106,6 +107,11 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
     @Override
     public void close() {
         super.close();
-        settings.save();
+
+        try {
+            settings.save();
+        } catch (IOException e) {
+            BetterPlayerList.getInstance().getLogger().error("Failed to write configuration to disk", e);
+        }
     }
 }

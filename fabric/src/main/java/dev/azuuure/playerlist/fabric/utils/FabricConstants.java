@@ -12,16 +12,6 @@ public final class FabricConstants {
     }
 
     /**
-     * The name of the mod configuration file.
-     */
-    public static final String CONFIGURATION_FILE_NAME = Constants.MOD_ID + ".properties";
-
-    /**
-     * The folder where the configuration file is stored at.
-     */
-    public static final String CONFIGURATION_FOLDER = "config" + File.separator + Constants.MOD_ID;
-
-    /**
      * The version of the mod, provided by the Fabric loader.
      *
      * <p>Fallbacks to <code>{unknown}</code> if Fabric isn't able to provide

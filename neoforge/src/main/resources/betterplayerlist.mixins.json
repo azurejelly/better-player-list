@@ -1,16 +1,19 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.azuuure.playerlist.fabric.mixin",
+  "package": "dev.azuuure.playerlist.neoforge.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-  ],
-  "client": [
+    "PlayerTabOverlayMixin",
+    "GuiMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "client": [
+    "PlayerTabOverlayMixin"
+  ]
 }

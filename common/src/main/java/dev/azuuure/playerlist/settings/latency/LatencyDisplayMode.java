@@ -1,4 +1,4 @@
-package dev.azuuure.playerlist.settings;
+package dev.azuuure.playerlist.settings.latency;
 
 public enum LatencyDisplayMode {
 

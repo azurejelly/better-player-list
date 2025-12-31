@@ -16,6 +16,7 @@ parchment = "2025.12.21-nightly-SNAPSHOT"
 # Other dependencies
 modmenu = "17.0.0-alpha.1"
 devauth = "1.2.2"
+slf4j = "2.0.17"
 
 [plugins]
 loom = { id = "fabric-loom", version.ref = "fabric-loom" }
@@ -29,3 +30,4 @@ fabric-yarn = { group = "net.fabricmc", name = "yarn", version.ref = "fabric-yar
 modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
 devauth-fabric = { group = "me.djtheredstoner", name = "DevAuth-fabric", version.ref = "devauth" }
 devauth-neoforge = { group = "me.djtheredstoner", name = "DevAuth-neoforge", version.ref = "devauth" }
+slf4j = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }

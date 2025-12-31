@@ -5,6 +5,4 @@ public final class LatencyUtils {
     private LatencyUtils() {
         throw new UnsupportedOperationException();
     }
-
-
 }

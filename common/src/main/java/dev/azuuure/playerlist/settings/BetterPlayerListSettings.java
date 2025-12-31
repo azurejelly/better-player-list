@@ -1,9 +1,7 @@
-package dev.azuuure.playerlist.fabric.settings;
+package dev.azuuure.playerlist.settings;
 
-import dev.azuuure.playerlist.fabric.BetterPlayerList;
-import dev.azuuure.playerlist.fabric.utils.FabricConstants;
-import dev.azuuure.playerlist.settings.LatencyDisplayMode;
-import net.minecraft.client.MinecraftClient;
+import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
+import dev.azuuure.playerlist.utils.Constants;
 
 import java.io.*;
 import java.util.Properties;
@@ -21,7 +19,7 @@ public final class BetterPlayerListSettings {
     private boolean shouldRenderHeads;
     private boolean forceHeads;
 
-    public BetterPlayerListSettings() {
+    public BetterPlayerListSettings(File gameDirectory) {
         this.header = true;
         this.footer = true;
         this.latencyDisplayMode = LatencyDisplayMode.FULL_SIZE;
@@ -31,29 +29,26 @@ public final class BetterPlayerListSettings {
         this.forceHeads = false;
         this.properties = new Properties();
         this.file = new File(
-                MinecraftClient.getInstance().runDirectory,
-                FabricConstants.CONFIGURATION_FOLDER
+                gameDirectory,
+                Constants.CONFIGURATION_FOLDER
                         + File.separator
-                        + FabricConstants.CONFIGURATION_FILE_NAME
+                        + Constants.CONFIGURATION_FILE_NAME
         );
     }
 
-    public void load() {
+    public void load() throws IOException {
         if (!file.exists()) {
             return;
         }
 
-        var mod = BetterPlayerList.getInstance();
         if (!file.canRead()) {
-            mod.getLogger().warn("File {} exists, but it cannot be read. Please check your file permissions!", file);
-            return;
+            throw new IOException("Mod configuration exists, but it cannot be read! Please check your file permissions.");
         }
 
         try (InputStream stream = new FileInputStream(file)) {
             properties.load(stream);
         } catch (IOException e) {
-            mod.getLogger().error("Could not read mod configuration file. Will fallback to defaults!", e);
-            return;
+            throw new IOException("Could not read mod configuration file", e);
         }
 
         this.header = Boolean.parseBoolean(properties.getProperty("header", String.valueOf(header)));
@@ -66,18 +61,17 @@ public final class BetterPlayerListSettings {
             var raw = properties.getProperty("latency", latencyDisplayMode.name());
             this.latencyDisplayMode = LatencyDisplayMode.valueOf(raw);
         } catch (IllegalArgumentException ex) {
-            mod.getLogger().warn("Failed to parse latency display mode from configuration file", ex);
-            return;
+            throw new IllegalArgumentException("The stored latency display mode is invalid", ex);
         }
-
-        mod.getLogger().info("Successfully loaded configuration from disk.");
     }
 
-    public void save() {
-        var mod = BetterPlayerList.getInstance();
+    public void save() throws IOException {
         if (file.exists() && !file.canWrite()) {
-            mod.getLogger().error("Cannot write configuration to disk. Please check your file permissions!");
-            return;
+            throw new IOException("Cannot write to the mod configuration file. Please check your file permissions!");
+        }
+
+        if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
+            throw new IOException("Cannot make configuration directory. Please check your file permissions!");
         }
 
         properties.setProperty("header", String.valueOf(header));
@@ -86,15 +80,7 @@ public final class BetterPlayerListSettings {
         properties.setProperty("heads", String.valueOf(shouldRenderHeads));
         properties.setProperty("force-heads", String.valueOf(forceHeads));
         properties.setProperty("latency", latencyDisplayMode.name());
-
-        try {
-            properties.store(new FileWriter(file), null);
-        } catch (IOException e) {
-            mod.getLogger().error("An error occurred while writing configuration to disk", e);
-            return;
-        }
-
-        mod.getLogger().info("Wrote configuration to disk");
+        properties.store(new FileWriter(file), null);
     }
 
     public boolean isHeaderEnabled() {

@@ -1,5 +1,7 @@
 package dev.azuuure.playerlist.utils;
 
+import java.io.File;
+
 public final class Constants {
 
     private Constants() {
@@ -10,6 +12,16 @@ public final class Constants {
      * The ID of the mod.
      */
     public static final String MOD_ID = "betterplayerlist";
+
+    /**
+     * The name of the mod configuration file.
+     */
+    public static final String CONFIGURATION_FILE_NAME = MOD_ID + ".properties";
+
+    /**
+     * The folder where the configuration file is stored at.
+     */
+    public static final String CONFIGURATION_FOLDER = "config" + File.separator + MOD_ID;
 
     /**
      * A lime green color in hexadecimal, which is used for very good
