@@ -1,0 +1,111 @@
+package dev.azuuure.playerlist.fabric.screen;
+
+import dev.azuuure.playerlist.fabric.BetterPlayerList;
+import dev.azuuure.playerlist.fabric.settings.BetterPlayerListSettings;
+import dev.azuuure.playerlist.settings.LatencyDisplayMode;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.option.GameOptionsScreen;
+import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.client.gui.widget.CyclingButtonWidget;
+import net.minecraft.text.Text;
+
+import java.util.List;
+
+public final class BetterPlayerListScreen extends GameOptionsScreen {
+
+    private final BetterPlayerListSettings settings;
+
+    public BetterPlayerListScreen(Screen parent) {
+        super(
+                parent,
+                MinecraftClient.getInstance().options,
+                Text.translatable("betterplayerlist.settings.title")
+        );
+
+        this.settings = BetterPlayerList.getInstance().getSettings();
+    }
+
+    @Override
+    protected void addOptions() {
+        if (body == null) {
+            return;
+        }
+
+        // just in case because i do not trust minecraft
+        var client = this.client != null ? this.client : MinecraftClient.getInstance();
+        var header = CyclingButtonWidget.onOffBuilder(settings.isHeaderEnabled())
+                .tooltip((v) ->
+                        Tooltip.of(
+                                Text.translatable("betterplayerlist.settings.header.tooltip")
+                        )
+                ).build(Text.translatable("betterplayerlist.settings.header"),
+                        (w, v) -> settings.setHeader(v));
+
+        var footer = CyclingButtonWidget.onOffBuilder(settings.isFooterEnabled())
+                .tooltip((v) ->
+                        Tooltip.of(
+                                Text.translatable("betterplayerlist.settings.footer.tooltip")
+                        )
+                ).build(Text.translatable("betterplayerlist.settings.footer"),
+                        (w, v) -> settings.setFooter(v));
+
+        var hold = CyclingButtonWidget
+                .onOffBuilder(
+                        Text.translatable("betterplayerlist.settings.key.hold"),
+                        Text.translatable("betterplayerlist.settings.key.toggle"),
+                        settings.shouldHold()
+                )
+                .tooltip((v) ->
+                        Tooltip.of(
+                                Text.translatable("betterplayerlist.settings.key.tooltip",
+                                        Text.translatable(client.options.playerListKey.getBoundKeyTranslationKey())
+                                                .styled(s -> s.withBold(true))
+                                )
+                        )
+                ).build(Text.translatable("betterplayerlist.settings.key"),
+                        (w, v) -> settings.setShouldHold(v));
+
+        var symbols = CyclingButtonWidget
+                .builder((d) -> Text.translatable(d.getPath()), settings.getLatencyDisplayMode())
+                .values(LatencyDisplayMode.values())
+                .tooltip((v) -> Tooltip.of(Text.translatable(v.getPath() + ".tooltip")))
+                .build(
+                        Text.translatable("betterplayerlist.settings.latency-symbols"),
+                        (w, v) -> settings.setLatencyDisplayMode(v)
+                );
+
+        var forceHeads = CyclingButtonWidget.onOffBuilder(settings.forcesHeads())
+                .tooltip((v) ->
+                        Tooltip.of(
+                                Text.translatable("betterplayerlist.settings.force-heads.tooltip")
+                        )
+                ).build(Text.translatable("betterplayerlist.settings.force-heads"),
+                        (w, v) -> settings.setForceHeads(v));
+
+        if (!settings.shouldRenderHeads()) {
+            forceHeads.active = false;
+        }
+
+        var renderHeads = CyclingButtonWidget.onOffBuilder(settings.shouldRenderHeads())
+                .tooltip((v) ->
+                        Tooltip.of(
+                                Text.translatable("betterplayerlist.settings.render-heads.tooltip")
+                        )
+                ).build(Text.translatable("betterplayerlist.settings.render-heads"),
+                        (w, v) -> {
+                            settings.setShouldRenderHeads(v);
+                            forceHeads.active = v;
+                        });
+
+        body.addAll(
+                List.of(header, footer, hold, symbols, renderHeads, forceHeads)
+        );
+    }
+
+    @Override
+    public void close() {
+        super.close();
+        settings.save();
+    }
+}

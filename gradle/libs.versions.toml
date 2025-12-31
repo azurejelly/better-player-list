@@ -1,0 +1,31 @@
+[versions]
+minecraft = "1.21.11"
+
+# Fabric
+fabric-api = "0.139.4+1.21.11"
+fabric-loom = "1.14-SNAPSHOT"
+fabric-yarn = "1.21.11+build.1"
+fabric-loader = "0.18.2"
+
+# Neoforge
+neoforge-main = "21.11.17-beta"
+neoforge-loader = "4"
+neoforge-moddev = "2.0.136"
+parchment = "2025.12.21-nightly-SNAPSHOT"
+
+# Other dependencies
+modmenu = "17.0.0-alpha.1"
+devauth = "1.2.2"
+
+[plugins]
+loom = { id = "fabric-loom", version.ref = "fabric-loom" }
+neoforge-moddev = { id = "net.neoforged.moddev", version.ref = "neoforge-moddev" }
+
+[libraries]
+minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
+fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
+fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
+fabric-yarn = { group = "net.fabricmc", name = "yarn", version.ref = "fabric-yarn" }
+modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
+devauth-fabric = { group = "me.djtheredstoner", name = "DevAuth-fabric", version.ref = "devauth" }
+devauth-neoforge = { group = "me.djtheredstoner", name = "DevAuth-neoforge", version.ref = "devauth" }

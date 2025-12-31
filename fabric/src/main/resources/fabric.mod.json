@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "Various enhancements for the Minecraft player list, such as numeric ping instead of connection bars.",
+  "authors": [ "azurejelly" ],
+  "contact": {
+    "sources": "https://github.com/azurejelly/better-player-list"
+  },
+  "license": "${license}",
+  "icon": "assets/${mod_id}/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.azuuure.playerlist.fabric.BetterPlayerList"
+    ],
+    "modmenu": [
+      "dev.azuuure.playerlist.fabric.compatibility.ModMenuApiImpl"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "~${minecraft_version}"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

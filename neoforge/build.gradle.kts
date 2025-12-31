@@ -1,0 +1,85 @@
+plugins {
+    alias(libs.plugins.neoforge.moddev)
+    id("java-library")
+    id("idea")
+}
+
+repositories {
+    maven("https://maven.neoforged.net/releases/")
+}
+
+dependencies {
+    implementation(project(":common"))
+
+    runtimeOnly(libs.devauth.neoforge)
+}
+
+base {
+    archivesName.set("${rootProject.property("archive_base_name")}-neoforge")
+}
+
+neoForge {
+    version = libs.versions.neoforge.main.get()
+
+    parchment {
+        mappingsVersion = libs.versions.parchment.get()
+        minecraftVersion = libs.versions.minecraft.get()
+    }
+
+    runs {
+        create("Client") {
+            client()
+            ideName = "NeoForge/Client"
+        }
+    }
+
+    mods {
+        create("${rootProject.property("mod_id")}") {
+            sourceSet(sourceSets["main"])
+            sourceSet(project(":common").sourceSets["main"])
+        }
+    }
+}
+
+sourceSets {
+    named("main") {
+        resources.srcDir("src/generated/resources")
+    }
+}
+
+val generateModMetadata by tasks.registering(ProcessResources::class) {
+    val id = rootProject.property("mod_id")
+    from("src/main/resources") {
+        include("assets/$id/icon.png")
+        rename { "icon.png" }
+    }
+
+    val replaceProperties = mapOf(
+        "mod_id"                  to id,
+        "mod_name"                to rootProject.property("mod_name"),
+        "mod_description"         to rootProject.property("mod_description"),
+        "mod_license"             to rootProject.property("license"),
+        "mod_version"             to project.version.toString(),
+        "minecraft_version"       to libs.versions.minecraft.get(),
+        "minecraft_version_range" to "[${libs.versions.minecraft.get()},)",
+        "loader_version_range"    to "[${libs.versions.neoforge.loader.get()},)"
+    )
+
+    inputs.properties(replaceProperties)
+    expand(replaceProperties)
+
+    into(layout.buildDirectory.dir("generated/sources/modMetadata"))
+}
+
+sourceSets.named("main") {
+    resources.srcDir(generateModMetadata)
+}
+
+neoForge.ideSyncTask(generateModMetadata)
+
+idea {
+    module {
+        isDownloadSources = true
+        isDownloadJavadoc = true
+    }
+}
