@@ -2,6 +2,7 @@ import org.gradle.internal.extensions.stdlib.toDefaultLowerCase
 
 plugins {
     id("maven-publish")
+    signing
 }
 
 publishing {
@@ -28,4 +29,9 @@ publishing {
             credentials(PasswordCredentials::class)
         }
     }
+}
+
+signing {
+    useGpgCmd()
+    sign(publishing.publications["mavenJava"])
 }
