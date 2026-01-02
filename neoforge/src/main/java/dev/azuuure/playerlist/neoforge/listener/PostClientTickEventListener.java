@@ -15,14 +15,14 @@ public final class PostClientTickEventListener {
         BetterPlayerList mod = BetterPlayerList.getInstance();
         boolean pressed = minecraft.options.keyPlayerList.isDown();
 
-        if (mod.getSettings().shouldHold()) {
-            mod.getSettings().setShouldDisplayList(pressed);
+        if (mod.getSettings().isKeybindHold()) {
+            mod.getSettings().setListRenderingEnabled(pressed);
             return;
         }
 
         if (pressed && !previouslyPressed) {
-            boolean current = mod.getSettings().shouldDisplayList();
-            mod.getSettings().setShouldDisplayList(!current);
+            boolean current = mod.getSettings().isListRenderingEnabled();
+            mod.getSettings().setListRenderingEnabled(!current);
         }
 
         previouslyPressed = pressed;

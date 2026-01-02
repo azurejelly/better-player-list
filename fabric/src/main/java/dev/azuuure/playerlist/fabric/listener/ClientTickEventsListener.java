@@ -20,14 +20,14 @@ public final class ClientTickEventsListener {
 
     private void handle(MinecraftClient client) {
         var pressed = client.options.playerListKey.isPressed();
-        if (mod.getSettings().shouldHold()) {
-            mod.getSettings().setShouldDisplayList(pressed);
+        if (mod.getSettings().isKeybindHold()) {
+            mod.getSettings().setListRenderingEnabled(pressed);
             return;
         }
 
         if (pressed && !previouslyPressed) {
-            var current = mod.getSettings().shouldDisplayList();
-            mod.getSettings().setShouldDisplayList(!current);
+            var current = mod.getSettings().isListRenderingEnabled();
+            mod.getSettings().setListRenderingEnabled(!current);
         }
 
         previouslyPressed = pressed;

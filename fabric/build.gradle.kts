@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.loom)
-    id("maven-publish")
 }
 
 base {

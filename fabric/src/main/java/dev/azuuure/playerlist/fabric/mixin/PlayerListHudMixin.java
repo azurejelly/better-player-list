@@ -159,11 +159,11 @@ public abstract class PlayerListHudMixin {
     public boolean renderPlayerHeads(boolean value) {
         var settings = BetterPlayerList.getInstance().getSettings();
 
-        if (!settings.shouldRenderHeads()) {
+        if (!settings.isHeadRenderingEnabled()) {
             return false;
         }
 
-        if (settings.forcesHeads()) {
+        if (settings.isForcingHeads()) {
             return true;
         }
 

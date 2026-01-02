@@ -1,0 +1,31 @@
+import org.gradle.internal.extensions.stdlib.toDefaultLowerCase
+
+plugins {
+    id("maven-publish")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        maven {
+            val version = project.version.toString().toDefaultLowerCase()
+            val repo = when {
+                version.contains("snapshot") ||
+                        version.contains("beta") ||
+                        version.contains("alpha") ||
+                        version.contains("dev") -> "snapshots"
+                else -> "releases"
+            }
+
+            name = "azurejelly"
+            url = uri("https://repo.azuuure.dev/maven-$repo/")
+            credentials(PasswordCredentials::class)
+        }
+    }
+}

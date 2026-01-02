@@ -1,10 +1,9 @@
 package dev.azuuure.playerlist.utils;
 
-public final class ColorUtils {
+import lombok.experimental.UtilityClass;
 
-    private ColorUtils() {
-        throw new UnsupportedOperationException();
-    }
+@UtilityClass
+public class ColorUtils {
 
     public static int latencyToColor(int ms) {
         if (ms < 100) {

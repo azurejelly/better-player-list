@@ -20,6 +20,10 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
     private final Screen parent;
 
     public BetterPlayerListScreen(ModContainer unused, Screen parent) {
+        this(parent);
+    }
+
+    public BetterPlayerListScreen(Screen parent) {
         super(
                 parent,
                 Minecraft.getInstance().options,
@@ -43,7 +47,7 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
                                         Component.translatable("betterplayerlist.settings.header.tooltip")
                                 )
                         ).create(Component.translatable("betterplayerlist.settings.header"),
-                                (w, v) -> settings.setHeader(v)
+                                (w, v) -> settings.setHeaderEnabled(v)
                         ),
                 CycleButton.onOffBuilder(settings.isFooterEnabled())
                         .withTooltip((v) ->
@@ -51,7 +55,7 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
                                         Component.translatable("betterplayerlist.settings.footer.tooltip")
                                 )
                         ).create(Component.translatable("betterplayerlist.settings.footer"),
-                                (w, v) -> settings.setFooter(v)
+                                (w, v) -> settings.setFooterEnabled(v)
                         )
         );
 
@@ -60,7 +64,7 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
                         .booleanBuilder(
                                 Component.translatable("betterplayerlist.settings.key.hold"),
                                 Component.translatable("betterplayerlist.settings.key.toggle"),
-                                settings.shouldHold()
+                                settings.isKeybindHold()
                         )
                         .withTooltip((v) ->
                             Tooltip.create(
@@ -72,7 +76,7 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
                                     )
                             )
                         ).create(Component.translatable("betterplayerlist.settings.key"),
-                                (w, v) -> settings.setShouldHold(v)
+                                (w, v) -> settings.setKeybindHold(v)
                         ),
 
                 CycleButton
@@ -85,30 +89,30 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
                         )
         );
 
-        var forceHeads = CycleButton.onOffBuilder(settings.forcesHeads())
+        var forceHeads = CycleButton.onOffBuilder(settings.isForcingHeads())
                 .withTooltip((v) ->
                         Tooltip.create(
                                 Component.translatable("betterplayerlist.settings.force-heads.tooltip")
                         )
                 ).create(
                         Component.translatable("betterplayerlist.settings.force-heads"),
-                        (w, v) -> settings.setForceHeads(v)
+                        (w, v) -> settings.setForcingHeads(v)
                 );
 
-        if (!settings.shouldRenderHeads()) {
+        if (!settings.isHeadRenderingEnabled()) {
             forceHeads.active = false;
         }
 
         list.addSmall(
                 CycleButton
-                        .onOffBuilder(settings.shouldRenderHeads())
+                        .onOffBuilder(settings.isHeadRenderingEnabled())
                         .withTooltip((v) ->
                                 Tooltip.create(
                                         Component.translatable("betterplayerlist.settings.render-heads.tooltip")
                                 )
                         ).create(Component.translatable("betterplayerlist.settings.render-heads"),
                                 (w, v) -> {
-                                    settings.setShouldRenderHeads(v);
+                                    settings.setHeadRenderingEnabled(v);
                                     forceHeads.active = v;
                                 }),
                 forceHeads

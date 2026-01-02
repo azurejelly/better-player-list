@@ -1,12 +1,11 @@
 package dev.azuuure.playerlist.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.File;
 
-public final class Constants {
-
-    private Constants() {
-        throw new UnsupportedOperationException();
-    }
+@UtilityClass
+public class Constants {
 
     /**
      * The ID of the mod.

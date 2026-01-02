@@ -30,6 +30,6 @@ public abstract class InGameHudMixin {
 
         return BetterPlayerList.getInstance()
                 .getSettings()
-                .shouldDisplayList();
+                .isListRenderingEnabled();
     }
 }

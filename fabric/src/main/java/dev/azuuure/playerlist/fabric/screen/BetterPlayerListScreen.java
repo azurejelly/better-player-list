@@ -41,7 +41,7 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
                                 Text.translatable("betterplayerlist.settings.header.tooltip")
                         )
                 ).build(Text.translatable("betterplayerlist.settings.header"),
-                        (w, v) -> settings.setHeader(v));
+                        (w, v) -> settings.setHeaderEnabled(v));
 
         var footer = CyclingButtonWidget.onOffBuilder(settings.isFooterEnabled())
                 .tooltip((v) ->
@@ -49,13 +49,13 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
                                 Text.translatable("betterplayerlist.settings.footer.tooltip")
                         )
                 ).build(Text.translatable("betterplayerlist.settings.footer"),
-                        (w, v) -> settings.setFooter(v));
+                        (w, v) -> settings.setFooterEnabled(v));
 
         var hold = CyclingButtonWidget
                 .onOffBuilder(
                         Text.translatable("betterplayerlist.settings.key.hold"),
                         Text.translatable("betterplayerlist.settings.key.toggle"),
-                        settings.shouldHold()
+                        settings.isKeybindHold()
                 )
                 .tooltip((v) ->
                         Tooltip.of(
@@ -65,7 +65,7 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
                                 )
                         )
                 ).build(Text.translatable("betterplayerlist.settings.key"),
-                        (w, v) -> settings.setShouldHold(v));
+                        (w, v) -> settings.setKeybindHold(v));
 
         var symbols = CyclingButtonWidget
                 .builder((d) -> Text.translatable(d.getPath()), settings.getLatencyDisplayMode())
@@ -76,26 +76,26 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
                         (w, v) -> settings.setLatencyDisplayMode(v)
                 );
 
-        var forceHeads = CyclingButtonWidget.onOffBuilder(settings.forcesHeads())
+        var forceHeads = CyclingButtonWidget.onOffBuilder(settings.isForcingHeads())
                 .tooltip((v) ->
                         Tooltip.of(
                                 Text.translatable("betterplayerlist.settings.force-heads.tooltip")
                         )
                 ).build(Text.translatable("betterplayerlist.settings.force-heads"),
-                        (w, v) -> settings.setForceHeads(v));
+                        (w, v) -> settings.setForcingHeads(v));
 
-        if (!settings.shouldRenderHeads()) {
+        if (!settings.isHeadRenderingEnabled()) {
             forceHeads.active = false;
         }
 
-        var renderHeads = CyclingButtonWidget.onOffBuilder(settings.shouldRenderHeads())
+        var renderHeads = CyclingButtonWidget.onOffBuilder(settings.isHeadRenderingEnabled())
                 .tooltip((v) ->
                         Tooltip.of(
                                 Text.translatable("betterplayerlist.settings.render-heads.tooltip")
                         )
                 ).build(Text.translatable("betterplayerlist.settings.render-heads"),
                         (w, v) -> {
-                            settings.setShouldRenderHeads(v);
+                            settings.setHeadRenderingEnabled(v);
                             forceHeads.active = v;
                         });
 

@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.neoforge.moddev)
-    id("java-library")
     id("idea")
 }
 
@@ -9,8 +8,13 @@ repositories {
 }
 
 dependencies {
+    compileOnly(libs.lombok)
     implementation(project(":common"))
+    annotationProcessor(libs.lombok)
     runtimeOnly(libs.devauth.neoforge)
+
+    testCompileOnly(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
 }
 
 base {
@@ -55,7 +59,8 @@ val generateModMetadata by tasks.registering(ProcessResources::class) {
         "mod_version"             to project.version.toString(),
         "minecraft_version"       to libs.versions.minecraft.get(),
         "minecraft_version_range" to "[${libs.versions.minecraft.get()},)",
-        "loader_version_range"    to "[${libs.versions.neoforge.loader.get()},)"
+        "loader_version_range"    to "[${libs.versions.neoforge.loader.get()},)",
+        "neoforge_version_range"  to "[${libs.versions.neoforge.main.get()},)"
     )
 
     inputs.properties(replaceProperties)

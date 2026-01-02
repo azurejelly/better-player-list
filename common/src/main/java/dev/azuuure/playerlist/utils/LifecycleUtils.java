@@ -1,12 +1,10 @@
 package dev.azuuure.playerlist.utils;
 
+import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 
-public final class LifecycleUtils {
-
-    private LifecycleUtils() {
-        throw new UnsupportedOperationException();
-    }
+@UtilityClass
+public class LifecycleUtils {
 
     public static void onInit(Logger logger, String version, String platform) {
         logger.info("Running {} version {} for {}", Constants.MOD_ID, version, platform);

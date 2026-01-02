@@ -30,6 +30,6 @@ public abstract class GuiMixin {
 
         return BetterPlayerList.getInstance()
                 .getSettings()
-                .shouldDisplayList();
+                .isListRenderingEnabled();
     }
 }
