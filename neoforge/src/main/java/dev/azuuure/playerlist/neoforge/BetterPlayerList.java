@@ -1,7 +1,7 @@
 package dev.azuuure.playerlist.neoforge;
 
 import com.mojang.logging.LogUtils;
-import dev.azuuure.playerlist.neoforge.listener.ClientTickEventListener;
+import dev.azuuure.playerlist.neoforge.listener.PostClientTickEventListener;
 import dev.azuuure.playerlist.neoforge.screen.BetterPlayerListScreen;
 import dev.azuuure.playerlist.neoforge.utils.NeoForgeConstants;
 import dev.azuuure.playerlist.settings.BetterPlayerListSettings;
@@ -9,8 +9,11 @@ import dev.azuuure.playerlist.utils.Constants;
 import dev.azuuure.playerlist.utils.LifecycleUtils;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
@@ -18,6 +21,7 @@ import org.slf4j.Logger;
 import java.io.IOException;
 
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
+@EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public final class BetterPlayerList {
 
     private static BetterPlayerList instance;
@@ -44,8 +48,13 @@ public final class BetterPlayerList {
         }
 
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, BetterPlayerListScreen::new);
-        NeoForge.EVENT_BUS.register(ClientTickEventListener.class);
+        NeoForge.EVENT_BUS.register(PostClientTickEventListener.class);
         LifecycleUtils.onInit(logger, NeoForgeConstants.MOD_VERSION, "NeoForge");
+    }
+
+    @SubscribeEvent
+    static void onClientSetup(FMLClientSetupEvent event) {
+        getInstance().init();
     }
 
     public static BetterPlayerList getInstance() {

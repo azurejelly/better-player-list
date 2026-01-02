@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-public final class ClientTickEventListener {
+public final class PostClientTickEventListener {
 
     private static boolean previouslyPressed = false;
 
