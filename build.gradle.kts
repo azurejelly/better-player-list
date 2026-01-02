@@ -12,7 +12,7 @@ subprojects {
 
         maven {
             name = "azurejelly"
-            url = uri("https://repo.azuuure.dev/maven-public/")
+            url = uri("https://repo.azuuure.dev/repository/maven-public/")
         }
 
         maven {
