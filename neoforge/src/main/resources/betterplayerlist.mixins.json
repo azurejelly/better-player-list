@@ -12,8 +12,5 @@
   },
   "overwrites": {
     "requireAnnotations": true
-  },
-  "client": [
-    "PlayerTabOverlayMixin"
-  ]
+  }
 }
