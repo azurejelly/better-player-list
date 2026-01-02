@@ -123,10 +123,6 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
     public void onClose() {
         super.onClose();
 
-        if (parent != null) {
-            minecraft.setScreen(parent);
-        }
-
         try {
             settings.save();
         } catch (IOException e) {
