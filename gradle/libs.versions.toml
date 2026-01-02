@@ -8,7 +8,7 @@ fabric-yarn = "1.21.11+build.1"
 fabric-loader = "0.18.2"
 
 # Neoforge
-neoforge-main = "21.11.17-beta"
+neoforge-main = "21.11.0-beta"
 neoforge-loader = "4"
 neoforge-moddev = "2.0.136"
 parchment = "2025.12.21-nightly-SNAPSHOT"
