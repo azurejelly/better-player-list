@@ -9,8 +9,20 @@ This mod allows you to:
 - Disable player heads
 - Force player heads on offline mode servers
 
+## Supported loaders
+BetterPlayerList works on [Fabric](https://fabricmc.net), [Quilt](https://quiltmc.org) and [NeoForge](https://neoforged.net).
+
 ## Requirements
-This mod depends on [Fabric API](https://modrinth.com/mod/fabricapi) and [Mod Menu](https://modrinth.com/mod/modmenu). The latter is technically optional, but it is required to access the settings screen.
+The requirements vary depending on your platform.
+
+### Fabric and Quilt
+On Fabric and Quilt, you'll need:
+- [Fabric API](https://modrinth.com/mod/fabricapi)
+- [Mod Menu](https://modrinth.com/mod/modmenu)
+  - Technically optional, but it is required to access the settings screen.
+
+### NeoForge
+You do not need any additional dependencies on NeoForge.
 
 ## Building
 To build BetterPlayerList, you'll need:
