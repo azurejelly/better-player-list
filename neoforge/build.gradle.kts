@@ -50,6 +50,13 @@ sourceSets {
     }
 }
 
+tasks {
+    jar {
+        from(sourceSets["main"].output)
+        from(project(":common").sourceSets["main"].output)
+    }
+}
+
 val generateModMetadata by tasks.registering(ProcessResources::class) {
     val replaceProperties = mapOf(
         "mod_id"                  to rootProject.property("mod_id"),
