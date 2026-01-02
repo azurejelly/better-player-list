@@ -24,7 +24,7 @@ publishing {
             }
 
             name = "azurejelly"
-            url = uri("https://repo.azuuure.dev/maven-$repo/")
+            url = uri("https://repo.azuuure.dev/repository/maven-$repo")
             credentials(PasswordCredentials::class)
         }
     }
