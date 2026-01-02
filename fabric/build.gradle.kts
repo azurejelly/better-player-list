@@ -25,7 +25,7 @@ dependencies {
         }
     )
 
-    modImplementation(project(":common"))
+    implementation(project(":common"))
     modImplementation(libs.fabric.loader)
     modImplementation(libs.fabric.api)
     modImplementation(libs.modmenu)
