@@ -18,6 +18,7 @@ public final class BetterPlayerListSettings {
     private boolean headerEnabled;
     private boolean footerEnabled;
     private LatencyDisplayMode latencyDisplayMode;
+    private boolean latencyUnitEnabled;
     private boolean keybindHold;
     private boolean listRenderingEnabled;
     private boolean headRenderingEnabled;
@@ -27,6 +28,7 @@ public final class BetterPlayerListSettings {
         this.headerEnabled = true;
         this.footerEnabled = true;
         this.latencyDisplayMode = LatencyDisplayMode.FULL_SIZE;
+        this.latencyUnitEnabled = true;
         this.keybindHold = true;
         this.listRenderingEnabled = false;
         this.headRenderingEnabled = true;

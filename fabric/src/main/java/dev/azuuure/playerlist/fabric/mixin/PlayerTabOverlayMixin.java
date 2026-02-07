@@ -1,6 +1,7 @@
 package dev.azuuure.playerlist.fabric.mixin;
 
 import dev.azuuure.playerlist.fabric.BetterPlayerList;
+import dev.azuuure.playerlist.settings.BetterPlayerListSettings;
 import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
 import dev.azuuure.playerlist.utils.ColorUtils;
 import net.minecraft.client.Minecraft;
@@ -75,8 +76,8 @@ public abstract class PlayerTabOverlayMixin {
         int ms = Math.min(9999, playerInfo.getLatency());
         int color = ColorUtils.latencyToColor(ms);
         Font font = minecraft.font;
-        boolean showUnit = mode == LatencyDisplayMode.COMPACT_WITH_UNIT
-                || mode == LatencyDisplayMode.FULL_SIZE;
+        boolean showUnit = mode.canDisplayUnit()
+                && settings.isLatencyUnitEnabled();
 
         Component component;
         if (showUnit) {
@@ -88,7 +89,6 @@ public abstract class PlayerTabOverlayMixin {
         }
 
         switch (mode) {
-            case COMPACT_WITH_UNIT:
             case COMPACT: {
                 float scale = 0.5f;
                 Matrix3x2fStack matrices = guiGraphics.pose();
@@ -117,24 +117,22 @@ public abstract class PlayerTabOverlayMixin {
     }
 
     // targets:
-    //   int j3 = Math.min(l2 * ((flag1 ? 9 : 0) + j + i3 + 13), width - 50) / l2;
+    //   int slotWidth = Math.min(cols * ((showHead ? 9 : 0) + maxNameWidth + widthForScore + 13), screenWidth - 50) / cols;
     @ModifyConstant(
             method = "render",
             constant = @Constant(intValue = 13)
     )
     public int expandEntries(int constant) {
-        var mode = BetterPlayerList
+        BetterPlayerListSettings settings = BetterPlayerList
                 .getInstance()
-                .getSettings()
-                .getLatencyDisplayMode();
+                .getSettings();
+
+        LatencyDisplayMode mode = settings.getLatencyDisplayMode();
+        boolean showUnit = settings.isLatencyUnitEnabled();
 
         switch (mode) {
             case COMPACT: {
-                constant += 5;
-                break;
-            }
-            case COMPACT_WITH_UNIT: {
-                constant += 10;
+                constant += (showUnit ? 10 : 5);
                 break;
             }
             case DISABLED: {
@@ -142,7 +140,7 @@ public abstract class PlayerTabOverlayMixin {
                 break;
             }
             case FULL_SIZE: {
-                constant += 26;
+                constant += (showUnit ? 26 : 20);
                 break;
             }
             default: {
@@ -162,7 +160,6 @@ public abstract class PlayerTabOverlayMixin {
     )
     public boolean renderPlayerHeads(boolean value) {
         var settings = BetterPlayerList.getInstance().getSettings();
-
         if (!settings.isHeadRenderingEnabled()) {
             return false;
         }
