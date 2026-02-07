@@ -40,7 +40,7 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
         list.addSmall(
                 List.of(
                         CycleButton.onOffBuilder(settings.isHeaderEnabled())
-                                .withTooltip((v) ->
+                                .withTooltip((_) ->
                                         Tooltip.create(
                                                 Component.translatable("betterplayerlist.settings.header.tooltip")
                                         )
@@ -48,7 +48,7 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
                                         (w, v) -> settings.setHeaderEnabled(v)),
 
                         CycleButton.onOffBuilder(settings.isFooterEnabled())
-                                .withTooltip((v) ->
+                                .withTooltip((_) ->
                                         Tooltip.create(
                                                 Component.translatable("betterplayerlist.settings.footer.tooltip")
                                         )
