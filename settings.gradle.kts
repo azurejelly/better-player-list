@@ -18,6 +18,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
-listOf("fabric", "neoforge", "common").forEach {
+listOf("fabric"/*, "neoforge"*/, "common").forEach {
     include(":$it")
 }
