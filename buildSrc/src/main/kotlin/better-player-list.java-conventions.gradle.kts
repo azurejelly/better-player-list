@@ -2,7 +2,7 @@ plugins {
     id("java")
 }
 
-val targetJavaVersion = 21
+val targetJavaVersion = 25
 
 tasks {
     withType<JavaCompile>().configureEach {
@@ -11,10 +11,9 @@ tasks {
     }
 
     java {
-        if (JavaVersion.current() < JavaVersion.toVersion(targetJavaVersion)) {
-            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-        }
-
         withSourcesJar()
+
+        sourceCompatibility = JavaVersion.toVersion(targetJavaVersion)
+        targetCompatibility = JavaVersion.toVersion(targetJavaVersion)
     }
 }
