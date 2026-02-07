@@ -2,7 +2,7 @@ package dev.azuuure.playerlist.fabric.listener;
 
 import dev.azuuure.playerlist.fabric.BetterPlayerList;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public final class ClientTickEventsListener {
 
@@ -18,8 +18,8 @@ public final class ClientTickEventsListener {
         ClientTickEvents.END_CLIENT_TICK.register(this::handle);
     }
 
-    private void handle(MinecraftClient client) {
-        var pressed = client.options.playerListKey.isPressed();
+    private void handle(Minecraft minecraft) {
+        var pressed = minecraft.options.keyPlayerList.isDown();
         if (mod.getSettings().isKeybindHold()) {
             mod.getSettings().setListRenderingEnabled(pressed);
             return;

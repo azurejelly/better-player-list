@@ -3,25 +3,26 @@ package dev.azuuure.playerlist.fabric.screen;
 import dev.azuuure.playerlist.fabric.BetterPlayerList;
 import dev.azuuure.playerlist.settings.BetterPlayerListSettings;
 import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.CyclingButtonWidget;
-import net.minecraft.text.Text;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.options.OptionsSubScreen;
+import net.minecraft.network.chat.Component;
 
 import java.io.IOException;
 import java.util.List;
 
-public final class BetterPlayerListScreen extends GameOptionsScreen {
+public final class BetterPlayerListScreen extends OptionsSubScreen {
 
     private final BetterPlayerListSettings settings;
 
     public BetterPlayerListScreen(Screen parent) {
         super(
                 parent,
-                MinecraftClient.getInstance().options,
-                Text.translatable("betterplayerlist.settings.title")
+                Minecraft.getInstance().options,
+                Component.translatable("betterplayerlist.settings.title")
         );
 
         this.settings = BetterPlayerList.getInstance().getSettings();
@@ -29,84 +30,85 @@ public final class BetterPlayerListScreen extends GameOptionsScreen {
 
     @Override
     protected void addOptions() {
-        if (body == null) {
+        if (list == null) {
             return;
         }
 
         // just in case because i do not trust minecraft
-        var client = this.client != null ? this.client : MinecraftClient.getInstance();
-        var header = CyclingButtonWidget.onOffBuilder(settings.isHeaderEnabled())
-                .tooltip((v) ->
-                        Tooltip.of(
-                                Text.translatable("betterplayerlist.settings.header.tooltip")
+        var header = CycleButton.onOffBuilder(settings.isHeaderEnabled())
+                .withTooltip((v) ->
+                        Tooltip.create(
+                                Component.translatable("betterplayerlist.settings.header.tooltip")
                         )
-                ).build(Text.translatable("betterplayerlist.settings.header"),
+                ).create(Component.translatable("betterplayerlist.settings.header"),
                         (w, v) -> settings.setHeaderEnabled(v));
 
-        var footer = CyclingButtonWidget.onOffBuilder(settings.isFooterEnabled())
-                .tooltip((v) ->
-                        Tooltip.of(
-                                Text.translatable("betterplayerlist.settings.footer.tooltip")
+        var footer = CycleButton.onOffBuilder(settings.isFooterEnabled())
+                .withTooltip((v) ->
+                        Tooltip.create(
+                                Component.translatable("betterplayerlist.settings.footer.tooltip")
                         )
-                ).build(Text.translatable("betterplayerlist.settings.footer"),
-                        (w, v) -> settings.setFooterEnabled(v));
+                ).create(Component.translatable("betterplayerlist.settings.footer"),
+                        (_, v) -> settings.setFooterEnabled(v));
 
-        var hold = CyclingButtonWidget
-                .onOffBuilder(
-                        Text.translatable("betterplayerlist.settings.key.hold"),
-                        Text.translatable("betterplayerlist.settings.key.toggle"),
+        var hold = CycleButton
+                .booleanBuilder(
+                        Component.translatable("betterplayerlist.settings.key.hold"),
+                        Component.translatable("betterplayerlist.settings.key.toggle"),
                         settings.isKeybindHold()
                 )
-                .tooltip((v) ->
-                        Tooltip.of(
-                                Text.translatable("betterplayerlist.settings.key.tooltip",
-                                        Text.translatable(client.options.playerListKey.getBoundKeyTranslationKey())
-                                                .styled(s -> s.withBold(true))
+                .withTooltip((_) ->
+                        Tooltip.create(
+                                Component.translatable("betterplayerlist.settings.key.tooltip",
+                                        minecraft.options.keyPlayerList
+                                                .getTranslatedKeyMessage()
+                                                .copy()
+                                                .withStyle(ChatFormatting.BOLD)
                                 )
                         )
-                ).build(Text.translatable("betterplayerlist.settings.key"),
-                        (w, v) -> settings.setKeybindHold(v));
+                ).create(Component.translatable("betterplayerlist.settings.key"),
+                        (_, v) -> settings.setKeybindHold(v));
 
-        var symbols = CyclingButtonWidget
-                .builder((d) -> Text.translatable(d.getPath()), settings.getLatencyDisplayMode())
-                .values(LatencyDisplayMode.values())
-                .tooltip((v) -> Tooltip.of(Text.translatable(v.getPath() + ".tooltip")))
-                .build(
-                        Text.translatable("betterplayerlist.settings.latency-symbols"),
-                        (w, v) -> settings.setLatencyDisplayMode(v)
+        var symbols = CycleButton
+                .builder((d) -> Component.translatable(d.getPath()), settings.getLatencyDisplayMode())
+                .withValues(LatencyDisplayMode.values())
+                .withTooltip((v) -> Tooltip.create(Component.translatable(v.getPath() + ".tooltip")))
+                .create(
+                        Component.translatable("betterplayerlist.settings.latency-symbols"),
+                        (_, v) -> settings.setLatencyDisplayMode(v)
                 );
 
-        var forceHeads = CyclingButtonWidget.onOffBuilder(settings.isForcingHeads())
-                .tooltip((v) ->
-                        Tooltip.of(
-                                Text.translatable("betterplayerlist.settings.force-heads.tooltip")
+        var forceHeads = CycleButton.onOffBuilder(settings.isForcingHeads())
+                .withTooltip((_) ->
+                        Tooltip.create(
+                                Component.translatable("betterplayerlist.settings.force-heads.tooltip")
                         )
-                ).build(Text.translatable("betterplayerlist.settings.force-heads"),
-                        (w, v) -> settings.setForcingHeads(v));
+                ).create(Component.translatable("betterplayerlist.settings.force-heads"),
+                        (_, v) -> settings.setForcingHeads(v));
 
         if (!settings.isHeadRenderingEnabled()) {
             forceHeads.active = false;
         }
 
-        var renderHeads = CyclingButtonWidget.onOffBuilder(settings.isHeadRenderingEnabled())
-                .tooltip((v) ->
-                        Tooltip.of(
-                                Text.translatable("betterplayerlist.settings.render-heads.tooltip")
+        var renderHeads = CycleButton.onOffBuilder(settings.isHeadRenderingEnabled())
+                .withTooltip((_) ->
+                        Tooltip.create(
+                                Component.translatable("betterplayerlist.settings.render-heads.tooltip")
                         )
-                ).build(Text.translatable("betterplayerlist.settings.render-heads"),
-                        (w, v) -> {
+                ).create(Component.translatable("betterplayerlist.settings.render-heads"),
+                        (_, v) -> {
                             settings.setHeadRenderingEnabled(v);
                             forceHeads.active = v;
                         });
 
-        body.addAll(
+        list.addSmall(
                 List.of(header, footer, hold, symbols, renderHeads, forceHeads)
         );
     }
 
     @Override
-    public void close() {
-        super.close();
+    public void onClose() {
+        super.onClose();
 
         try {
             settings.save();

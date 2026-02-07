@@ -3,11 +3,12 @@ package dev.azuuure.playerlist.fabric.mixin;
 import dev.azuuure.playerlist.fabric.BetterPlayerList;
 import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
 import dev.azuuure.playerlist.utils.ColorUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.PlayerListHud;
-import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.PlayerTabOverlay;
+import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.network.chat.Component;
 import org.joml.Matrix3x2fStack;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -16,27 +17,27 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(PlayerListHud.class)
-public abstract class PlayerListHudMixin {
+@Mixin(PlayerTabOverlay.class)
+public abstract class PlayerTabOverlayMixin {
 
     @Shadow @Final
-    private MinecraftClient client;
+    private Minecraft minecraft;
 
     @Shadow
-    private Text header;
+    private Component header;
 
     @Shadow
-    private Text footer;
+    private Component footer;
 
     @Redirect(
             method = "render",
             at = @At(
                     value = "FIELD",
-                    target = "Lnet/minecraft/client/gui/hud/PlayerListHud;header:Lnet/minecraft/text/Text;",
+                    target = "Lnet/minecraft/client/gui/components/PlayerTabOverlay;header:Lnet/minecraft/network/chat/Component;",
                     opcode = Opcodes.GETFIELD
             )
     )
-    public Text redirectHeader(PlayerListHud instance) {
+    public Component redirectHeader(PlayerTabOverlay instance) {
         if (!BetterPlayerList.getInstance().getSettings().isHeaderEnabled()) {
             return null;
         }
@@ -48,11 +49,11 @@ public abstract class PlayerListHudMixin {
             method = "render",
             at = @At(
                     value = "FIELD",
-                    target = "Lnet/minecraft/client/gui/hud/PlayerListHud;footer:Lnet/minecraft/text/Text;",
+                    target = "Lnet/minecraft/client/gui/components/PlayerTabOverlay;footer:Lnet/minecraft/network/chat/Component;",
                     opcode = Opcodes.GETFIELD
             )
     )
-    public Text redirectFooter(PlayerListHud instance) {
+    public Component redirectFooter(PlayerTabOverlay instance) {
         if (!BetterPlayerList.getInstance().getSettings().isFooterEnabled()) {
             return null;
         }
@@ -60,8 +61,9 @@ public abstract class PlayerListHudMixin {
         return footer;
     }
 
-    @Inject(method = "renderLatencyIcon", at = @At("HEAD"), cancellable = true)
-    public void renderLatencyAsText(DrawContext ctx, int width, int x, int y, PlayerListEntry entry, CallbackInfo ci) {
+
+    @Inject(method = "renderPingIcon", at = @At("HEAD"), cancellable = true)
+    public void renderLatencyAsText(GuiGraphics guiGraphics, int width, int x, int y, PlayerInfo playerInfo, CallbackInfo ci) {
         var mod = BetterPlayerList.getInstance();
         var settings = mod.getSettings();
 
@@ -70,18 +72,18 @@ public abstract class PlayerListHudMixin {
             return;
         }
 
-        int ms = Math.min(9999, entry.getLatency());
+        int ms = Math.min(9999, playerInfo.getLatency());
         int color = ColorUtils.latencyToColor(ms);
-        var renderer = client.textRenderer;
+        Font font = minecraft.font;
         boolean showUnit = mode == LatencyDisplayMode.COMPACT_WITH_UNIT
                 || mode == LatencyDisplayMode.FULL_SIZE;
 
-        Text text;
+        Component component;
         if (showUnit) {
-            text = Text.literal(ms + "ms")
+            component = Component.literal(ms + "ms")
                     .withColor(color);
         } else {
-            text = Text.literal(String.valueOf(ms))
+            component = Component.literal(String.valueOf(ms))
                     .withColor(color);
         }
 
@@ -89,21 +91,21 @@ public abstract class PlayerListHudMixin {
             case COMPACT_WITH_UNIT:
             case COMPACT: {
                 float scale = 0.5f;
-                Matrix3x2fStack matrices = ctx.getMatrices();
+                Matrix3x2fStack matrices = guiGraphics.pose();
                 matrices.pushMatrix();
                 matrices.scale(scale);
 
                 int maxX = (int)((x + width - 2) / scale);
-                int drawX = maxX - renderer.getWidth(text);
+                int drawX = maxX - font.width(component);
                 int drawY = (int)(y / scale + 5);
-                ctx.drawTextWithShadow(renderer, text, drawX, drawY, -1);
+                guiGraphics.drawString(font, component, drawX, drawY, -1, true);
 
                 matrices.popMatrix();
                 break;
             }
             case FULL_SIZE: {
-                int drawX = (x + width) - renderer.getWidth(text);
-                ctx.drawTextWithShadow(renderer, text, drawX, y, -1);
+                int drawX = (x + width) - font.width(component);
+                guiGraphics.drawString(font, component, drawX, y, -1, true);
                 break;
             }
             case DISABLED: {
@@ -114,8 +116,8 @@ public abstract class PlayerListHudMixin {
         ci.cancel();
     }
 
-    // targets this line:
-    //   int m = Math.min(p * ((bl ? 9 : 0) + j + q + 13), scaledWindowWidth - 50) / p;
+    // targets:
+    //   int j3 = Math.min(l2 * ((flag1 ? 9 : 0) + j + i3 + 13), width - 50) / l2;
     @ModifyConstant(
             method = "render",
             constant = @Constant(intValue = 13)
@@ -151,6 +153,8 @@ public abstract class PlayerListHudMixin {
         return constant;
     }
 
+    // targets:
+    //   boolean flag1 = this.minecraft.isLocalServer() || this.minecraft.getConnection().getConnection().isEncrypted();
     @ModifyVariable(
             method = "render",
             at = @At("STORE"),

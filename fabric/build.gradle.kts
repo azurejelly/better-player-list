@@ -19,17 +19,14 @@ loom {
 
 dependencies {
     minecraft(libs.minecraft)
-    mappings(
-        variantOf(libs.fabric.yarn) {
-            classifier("v2")
-        }
-    )
-
+    compileOnly(libs.lombok)
     implementation(project(":common"))
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.api)
-    modImplementation(libs.modmenu)
-    modRuntimeOnly(libs.devauth.fabric)
+    implementation(libs.fabric.loader)
+    implementation(libs.fabric.api)
+    implementation(libs.modmenu)
+
+    // TODO: uncomment devauth once it is updated to 26.1
+    // runtimeOnly(libs.devauth.fabric)
 }
 
 tasks {
@@ -43,6 +40,8 @@ tasks {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
         from(project(":common").sourceSets.main.get().resources)
+
+        // TODO: update minecraft version range on fabric.mod.json once 26.1 releases
         filesMatching("fabric.mod.json") {
             expand(
                 "version" to project.version,
