@@ -24,11 +24,6 @@ base {
 neoForge {
     version = libs.versions.neoforge.main.get()
 
-    parchment {
-        mappingsVersion = libs.versions.parchment.get()
-        minecraftVersion = libs.versions.minecraft.get()
-    }
-
     runs {
         create("Client") {
             client()
