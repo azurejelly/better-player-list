@@ -1,4 +1,4 @@
-# Better Player List [![Gradle](https://github.com/azurejelly/better-player-list/actions/workflows/gradle.yml/badge.svg)](https://github.com/azurejelly/better-player-list/actions/workflows/gradle.yml) ![Downloads](https://img.shields.io/modrinth/dt/better-player-list?logo=modrinth&color=00AF5C) ![Game version](https://img.shields.io/modrinth/game-versions/better-player-list?logo=modrinth&color=00AF5C)
+# Better Player List [![Gradle](https://github.com/azurejelly/better-player-list/actions/workflows/gradle.yml/badge.svg)](https://github.com/azurejelly/better-player-list/actions/workflows/gradle.yml) [![Downloads](https://img.shields.io/modrinth/dt/better-player-list?logo=modrinth&color=00AF5C)](https://modrinth.com/mod/better-player-list) [![Game version](https://img.shields.io/modrinth/game-versions/better-player-list?logo=modrinth&color=00AF5C)](https://modrinth.com/mod/better-player-list)
 Various Minecraft player list enhancements, such as numeric ping instead of connection bars.
 
 ## Features
@@ -25,9 +25,9 @@ On Fabric and Quilt, you'll need:
 You do not need any additional dependencies on NeoForge.
 
 ## Building
-To build BetterPlayerList, you'll need:
+To build the mod, you'll need:
 - Git
-- JDK 21
+- JDK 25
 
 Clone the repository:
 ```shell
