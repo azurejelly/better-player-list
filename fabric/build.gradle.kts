@@ -19,15 +19,16 @@ loom {
 
 dependencies {
     minecraft(libs.minecraft)
+
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+
     implementation(project(":common"))
     implementation(libs.fabric.loader)
     implementation(libs.fabric.api)
     implementation(libs.modmenu)
 
-    // TODO: uncomment devauth once it is updated to 26.1
-    // runtimeOnly(libs.devauth.fabric)
+    runtimeOnly(libs.devauth.fabric)
 }
 
 tasks {
