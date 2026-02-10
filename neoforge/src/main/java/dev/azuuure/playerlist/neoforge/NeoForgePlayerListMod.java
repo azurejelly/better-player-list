@@ -1,12 +1,15 @@
 package dev.azuuure.playerlist.neoforge;
 
 import com.mojang.logging.LogUtils;
+import dev.azuuure.playerlist.PlayerListMod;
 import dev.azuuure.playerlist.neoforge.listener.PostClientTickEventListener;
-import dev.azuuure.playerlist.neoforge.screen.BetterPlayerListScreen;
-import dev.azuuure.playerlist.neoforge.utils.NeoForgeConstants;
-import dev.azuuure.playerlist.settings.BetterPlayerListSettings;
+import dev.azuuure.playerlist.neoforge.utils.NeoForgeUtils;
+import dev.azuuure.playerlist.provider.PlayerListModProvider;
+import dev.azuuure.playerlist.screen.PlayerListOptionsScreen;
+import dev.azuuure.playerlist.settings.PlayerListSettings;
 import dev.azuuure.playerlist.utils.Constants;
 import dev.azuuure.playerlist.utils.LifecycleUtils;
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -20,24 +23,26 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 
+@Getter
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
-public final class BetterPlayerList {
+public final class NeoForgePlayerListMod implements PlayerListMod {
 
-    private static BetterPlayerList instance;
     private final ModContainer modContainer;
     private final Logger logger;
-    private BetterPlayerListSettings settings;
+    private PlayerListSettings settings;
 
-    public BetterPlayerList(ModContainer container) {
-        instance = this;
+    public NeoForgePlayerListMod(ModContainer container) {
+        PlayerListModProvider.setInstance(this);
+
         modContainer = container;
         logger = LogUtils.getLogger();
     }
 
+    @Override
     public void init() {
         try {
-            settings = new BetterPlayerListSettings(Minecraft.getInstance().gameDirectory);
+            settings = new PlayerListSettings(Minecraft.getInstance().gameDirectory);
             settings.load();
 
             logger.info("Loaded configuration from disk.");
@@ -47,29 +52,27 @@ public final class BetterPlayerList {
             logger.warn("One or more values in the configuration are invalid", e);
         }
 
-        modContainer.registerExtensionPoint(IConfigScreenFactory.class, BetterPlayerListScreen::new);
+        modContainer.registerExtensionPoint(
+                IConfigScreenFactory.class,
+                (_, parent) -> new PlayerListOptionsScreen(parent)
+        );
+
         NeoForge.EVENT_BUS.register(PostClientTickEventListener.class);
-        LifecycleUtils.onInit(logger, NeoForgeConstants.MOD_VERSION, "NeoForge");
+        LifecycleUtils.onInit(this);
     }
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-        getInstance().init();
+        PlayerListModProvider.getInstance().init();
     }
 
-    public static BetterPlayerList getInstance() {
-        return instance;
+    @Override
+    public String getVersion() {
+        return NeoForgeUtils.getModVersion();
     }
 
-    public Logger getLogger() {
-        return logger;
-    }
-
-    public BetterPlayerListSettings getSettings() {
-        return settings;
-    }
-
-    public ModContainer getContainer() {
-        return modContainer;
+    @Override
+    public String getPlatform() {
+        return NeoForgeUtils.PLATFORM;
     }
 }

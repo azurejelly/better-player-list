@@ -1,6 +1,8 @@
-package dev.azuuure.playerlist.neoforge.mixin;
+package dev.azuuure.playerlist.mixin;
 
-import dev.azuuure.playerlist.neoforge.BetterPlayerList;
+import dev.azuuure.playerlist.PlayerListMod;
+import dev.azuuure.playerlist.provider.PlayerListModProvider;
+import dev.azuuure.playerlist.settings.PlayerListSettings;
 import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
 import dev.azuuure.playerlist.utils.ColorUtils;
 import net.minecraft.client.Minecraft;
@@ -37,8 +39,9 @@ public abstract class PlayerTabOverlayMixin {
                     opcode = Opcodes.GETFIELD
             )
     )
-    public Component redirectHeader(PlayerTabOverlay instance) {
-        if (!BetterPlayerList.getInstance().getSettings().isHeaderEnabled()) {
+    public Component betterplayerlist$redirectHeader(PlayerTabOverlay instance) {
+        PlayerListMod mod = PlayerListModProvider.getInstance();
+        if (!mod.getSettings().isHeaderEnabled()) {
             return null;
         }
 
@@ -53,8 +56,9 @@ public abstract class PlayerTabOverlayMixin {
                     opcode = Opcodes.GETFIELD
             )
     )
-    public Component redirectFooter(PlayerTabOverlay instance) {
-        if (!BetterPlayerList.getInstance().getSettings().isFooterEnabled()) {
+    public Component betterplayerlist$redirectFooter(PlayerTabOverlay instance) {
+        PlayerListMod mod = PlayerListModProvider.getInstance();
+        if (!mod.getSettings().isFooterEnabled()) {
             return null;
         }
 
@@ -62,21 +66,25 @@ public abstract class PlayerTabOverlayMixin {
     }
 
 
-    @Inject(method = "renderPingIcon", at = @At("HEAD"), cancellable = true)
-    public void renderLatencyAsText(GuiGraphics guiGraphics, int width, int x, int y, PlayerInfo playerInfo, CallbackInfo ci) {
-        var mod = BetterPlayerList.getInstance();
-        var settings = mod.getSettings();
-
+    @Inject(
+            method = "renderPingIcon",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void betterplayerlist$renderLatencyAsText(GuiGraphics guiGraphics, int width, int x, int y, PlayerInfo playerInfo, CallbackInfo ci) {
+        PlayerListMod mod = PlayerListModProvider.getInstance();
+        PlayerListSettings settings = mod.getSettings();
         LatencyDisplayMode mode = settings.getLatencyDisplayMode();
+
         if (mode == LatencyDisplayMode.VANILLA) {
             return;
         }
 
+        Font font = minecraft.font;
         int ms = Math.min(9999, playerInfo.getLatency());
         int color = ColorUtils.latencyToColor(ms);
-        Font font = minecraft.font;
-        boolean showUnit = mode == LatencyDisplayMode.COMPACT_WITH_UNIT
-                || mode == LatencyDisplayMode.FULL_SIZE;
+        boolean showUnit = mode.canDisplayUnit()
+                && settings.isLatencyUnitEnabled();
 
         Component component;
         if (showUnit) {
@@ -88,7 +96,6 @@ public abstract class PlayerTabOverlayMixin {
         }
 
         switch (mode) {
-            case COMPACT_WITH_UNIT:
             case COMPACT: {
                 float scale = 0.5f;
                 Matrix3x2fStack matrices = guiGraphics.pose();
@@ -117,24 +124,20 @@ public abstract class PlayerTabOverlayMixin {
     }
 
     // targets:
-    //   int j3 = Math.min(l2 * ((flag1 ? 9 : 0) + j + i3 + 13), width - 50) / l2;
+    //   int slotWidth = Math.min(cols * ((showHead ? 9 : 0) + maxNameWidth + widthForScore + 13), screenWidth - 50) / cols;
     @ModifyConstant(
             method = "render",
             constant = @Constant(intValue = 13)
     )
-    public int expandEntries(int constant) {
-        var mode = BetterPlayerList
-                .getInstance()
-                .getSettings()
-                .getLatencyDisplayMode();
+    public int betterplayerlist$expandEntries(int constant) {
+        PlayerListMod mod = PlayerListModProvider.getInstance();
+        PlayerListSettings settings = mod.getSettings();
+        LatencyDisplayMode mode = settings.getLatencyDisplayMode();
+        boolean showUnit = settings.isLatencyUnitEnabled();
 
         switch (mode) {
             case COMPACT: {
-                constant += 5;
-                break;
-            }
-            case COMPACT_WITH_UNIT: {
-                constant += 10;
+                constant += (showUnit ? 10 : 5);
                 break;
             }
             case DISABLED: {
@@ -142,7 +145,7 @@ public abstract class PlayerTabOverlayMixin {
                 break;
             }
             case FULL_SIZE: {
-                constant += 26;
+                constant += (showUnit ? 26 : 17);
                 break;
             }
             default: {
@@ -160,8 +163,9 @@ public abstract class PlayerTabOverlayMixin {
             at = @At("STORE"),
             ordinal = 0
     )
-    public boolean renderPlayerHeads(boolean value) {
-        var settings = BetterPlayerList.getInstance().getSettings();
+    public boolean betterplayerlist$renderPlayerHeads(boolean value) {
+        PlayerListMod mod = PlayerListModProvider.getInstance();
+        PlayerListSettings settings = mod.getSettings();
 
         if (!settings.isHeadRenderingEnabled()) {
             return false;

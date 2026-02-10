@@ -13,7 +13,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "dev.azuuure.playerlist.fabric.BetterPlayerList"
+      "dev.azuuure.playerlist.fabric.FabricPlayerListMod"
     ],
     "modmenu": [
       "dev.azuuure.playerlist.fabric.compatibility.ModMenuApiImpl"

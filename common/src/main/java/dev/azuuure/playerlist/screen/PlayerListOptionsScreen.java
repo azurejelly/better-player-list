@@ -1,7 +1,8 @@
-package dev.azuuure.playerlist.fabric.screen;
+package dev.azuuure.playerlist.screen;
 
-import dev.azuuure.playerlist.fabric.BetterPlayerList;
-import dev.azuuure.playerlist.settings.BetterPlayerListSettings;
+import dev.azuuure.playerlist.PlayerListMod;
+import dev.azuuure.playerlist.provider.PlayerListModProvider;
+import dev.azuuure.playerlist.settings.PlayerListSettings;
 import dev.azuuure.playerlist.settings.latency.LatencyDisplayMode;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -16,25 +17,27 @@ import net.minecraft.network.chat.Component;
 import java.io.IOException;
 import java.util.List;
 
-public final class BetterPlayerListScreen extends OptionsSubScreen {
+public final class PlayerListOptionsScreen extends OptionsSubScreen {
 
-    private final BetterPlayerListSettings settings;
+    private final PlayerListMod mod;
 
-    public BetterPlayerListScreen(Screen parent) {
+    public PlayerListOptionsScreen(Screen parent) {
         super(
                 parent,
                 Minecraft.getInstance().options,
                 Component.translatable("betterplayerlist.settings.title")
         );
 
-        this.settings = BetterPlayerList.getInstance().getSettings();
+        this.mod = PlayerListModProvider.getInstance();
     }
 
     @Override
     protected void addOptions() {
         if (list == null) {
-            return;
+            throw new IllegalStateException("Called addOptions with a null list");
         }
+
+        PlayerListSettings settings = mod.getSettings();
 
         list.addHeader(Component.translatable("betterplayerlist.settings.server-features"));
         list.addSmall(
@@ -143,9 +146,9 @@ public final class BetterPlayerListScreen extends OptionsSubScreen {
         super.onClose();
 
         try {
-            settings.save();
+            mod.getSettings().save();
         } catch (IOException e) {
-            BetterPlayerList.getInstance().getLogger().error("Failed to write configuration to disk", e);
+            mod.getLogger().error("Failed to write configuration to disk", e);
         }
     }
 }

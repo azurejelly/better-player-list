@@ -1,8 +1,10 @@
 package dev.azuuure.playerlist.fabric;
 
 import com.mojang.logging.LogUtils;
+import dev.azuuure.playerlist.PlayerListMod;
+import dev.azuuure.playerlist.provider.PlayerListModProvider;
 import dev.azuuure.playerlist.fabric.listener.ClientTickEventsListener;
-import dev.azuuure.playerlist.settings.BetterPlayerListSettings;
+import dev.azuuure.playerlist.settings.PlayerListSettings;
 import dev.azuuure.playerlist.fabric.utils.FabricUtils;
 import dev.azuuure.playerlist.utils.LifecycleUtils;
 import lombok.Getter;
@@ -12,17 +14,23 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 
-public final class BetterPlayerList implements ClientModInitializer {
+@Getter
+public final class FabricPlayerListMod implements PlayerListMod, ClientModInitializer {
 
-    @Getter private static BetterPlayerList instance;
-    @Getter private Logger logger;
-    @Getter private BetterPlayerListSettings settings;
+    private Logger logger;
+    private PlayerListSettings settings;
 
     @Override
     public void onInitializeClient() {
-        instance = this;
+        init();
+    }
+
+    @Override
+    public void init() {
+        PlayerListModProvider.setInstance(this);
+
         logger = LogUtils.getLogger();
-        settings = new BetterPlayerListSettings(Minecraft.getInstance().gameDirectory);
+        settings = new PlayerListSettings(Minecraft.getInstance().gameDirectory);
 
         try {
             settings.load();
@@ -33,6 +41,16 @@ public final class BetterPlayerList implements ClientModInitializer {
         }
 
         new ClientTickEventsListener().register();
-        LifecycleUtils.onInit(logger, FabricUtils.getModVersion(), "Fabric");
+        LifecycleUtils.onInit(this);
+    }
+
+    @Override
+    public String getVersion() {
+        return FabricUtils.getModVersion();
+    }
+
+    @Override
+    public String getPlatform() {
+        return FabricUtils.PLATFORM;
     }
 }

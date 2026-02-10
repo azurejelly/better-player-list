@@ -1,16 +1,17 @@
 package dev.azuuure.playerlist.fabric.listener;
 
-import dev.azuuure.playerlist.fabric.BetterPlayerList;
+import dev.azuuure.playerlist.PlayerListMod;
+import dev.azuuure.playerlist.provider.PlayerListModProvider;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 
 public final class ClientTickEventsListener {
 
-    private final BetterPlayerList mod;
+    private final PlayerListMod mod;
     private boolean previouslyPressed;
 
     public ClientTickEventsListener() {
-        this.mod = BetterPlayerList.getInstance();
+        this.mod = PlayerListModProvider.getInstance();
         this.previouslyPressed = false;
     }
 

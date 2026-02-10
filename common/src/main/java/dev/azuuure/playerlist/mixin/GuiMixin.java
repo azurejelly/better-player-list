@@ -1,6 +1,6 @@
-package dev.azuuure.playerlist.neoforge.mixin;
+package dev.azuuure.playerlist.mixin;
 
-import dev.azuuure.playerlist.neoforge.BetterPlayerList;
+import dev.azuuure.playerlist.provider.PlayerListModProvider;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -28,7 +28,7 @@ public abstract class GuiMixin {
             return false;
         }
 
-        return BetterPlayerList.getInstance()
+        return PlayerListModProvider.getInstance()
                 .getSettings()
                 .isListRenderingEnabled();
     }

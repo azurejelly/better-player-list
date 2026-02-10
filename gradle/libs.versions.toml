@@ -7,11 +7,13 @@ fabric-loom = "1.15-SNAPSHOT"
 fabric-loader = "0.18.4"
 
 # Neoforge
-neoforge-main = "26.1.0.0-alpha.9+snapshot-6"
+neoforge-main = "26.1.0.0-alpha.10+snapshot-6"
 neoforge-loader = "4"
 neoforge-moddev = "2.0.140"
 
 # Other dependencies
+asm = "9.9.1"
+mixin = "0.8.3"
 modmenu = "18.0.0-alpha.5"
 devauth = "1.2.2"
 slf4j = "2.0.17"
@@ -26,6 +28,8 @@ neoforge-moddev = { id = "net.neoforged.moddev", version.ref = "neoforge-moddev"
 minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
+asm = { group = "org.ow2.asm", name = "asm", version.ref = "asm" }
+mixin = { group = "org.spongepowered", name = "mixin", version.ref = "mixin" }
 modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
 devauth-fabric = { group = "me.djtheredstoner", name = "DevAuth-fabric", version.ref = "devauth" }
 devauth-neoforge = { group = "me.djtheredstoner", name = "DevAuth-neoforge", version.ref = "devauth" }

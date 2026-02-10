@@ -10,7 +10,7 @@ import java.util.Properties;
 
 @Getter
 @Setter
-public final class BetterPlayerListSettings {
+public final class PlayerListSettings {
 
     private final File file;
     private final Properties properties;
@@ -24,7 +24,7 @@ public final class BetterPlayerListSettings {
     private boolean headRenderingEnabled;
     private boolean forcingHeads;
 
-    public BetterPlayerListSettings(File gameDirectory) {
+    public PlayerListSettings(File gameDirectory) {
         this.headerEnabled = true;
         this.footerEnabled = true;
         this.latencyDisplayMode = LatencyDisplayMode.FULL_SIZE;
