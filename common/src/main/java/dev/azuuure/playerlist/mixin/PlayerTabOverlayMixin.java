@@ -129,7 +129,7 @@ public abstract class PlayerTabOverlayMixin {
             method = "render",
             constant = @Constant(intValue = 13)
     )
-    public int betterplayerlist$expandEntries(int constant) {
+    public int betterplayerlist$expandSlots(int constant) {
         PlayerListMod mod = PlayerListModProvider.getInstance();
         PlayerListSettings settings = mod.getSettings();
         LatencyDisplayMode mode = settings.getLatencyDisplayMode();
@@ -157,11 +157,11 @@ public abstract class PlayerTabOverlayMixin {
     }
 
     // targets:
-    //   boolean flag1 = this.minecraft.isLocalServer() || this.minecraft.getConnection().getConnection().isEncrypted();
+    //   boolean showHead = this.minecraft.isLocalServer() || this.minecraft.getConnection().getConnection().isEncrypted();
     @ModifyVariable(
             method = "render",
             at = @At("STORE"),
-            ordinal = 0
+            name = "showHead"
     )
     public boolean betterplayerlist$renderPlayerHeads(boolean value) {
         PlayerListMod mod = PlayerListModProvider.getInstance();
