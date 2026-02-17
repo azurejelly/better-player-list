@@ -4,7 +4,7 @@ plugins {
 }
 
 neoForge {
-    neoFormVersion = "26.1-snapshot-6-1"
+    neoFormVersion = "26.1-snapshot-7-1"
 }
 
 dependencies {
