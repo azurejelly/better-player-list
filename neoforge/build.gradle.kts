@@ -8,8 +8,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.lombok)
     implementation(project(":common"))
+
+    compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
     runtimeOnly(libs.devauth.neoforge)
 
@@ -27,7 +28,7 @@ neoForge {
     runs {
         create("Client") {
             client()
-            ideName = "NeoForge/Client"
+            ideName = "NeoForge/Client (:${project.name})" // the inconsistency was pissing me off
         }
     }
 

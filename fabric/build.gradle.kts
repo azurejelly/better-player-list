@@ -19,11 +19,11 @@ loom {
 
 dependencies {
     minecraft(libs.minecraft)
+    implementation(project(":common"))
 
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 
-    implementation(project(":common"))
     implementation(libs.fabric.loader)
     implementation(libs.fabric.api)
     implementation(libs.modmenu)
