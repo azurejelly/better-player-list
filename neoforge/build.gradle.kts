@@ -28,6 +28,7 @@ neoForge {
     runs {
         create("Client") {
             client()
+            jvmArgument("-Ddevauth.account=alt") // prefer alt account when running the neoforge test client
             ideName = "NeoForge/Client (:${project.name})" // the inconsistency was pissing me off
         }
     }
