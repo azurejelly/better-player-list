@@ -22,14 +22,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerTabOverlay.class)
 public abstract class PlayerTabOverlayMixin {
 
+    @Shadow private Component header;
+    @Shadow private Component footer;
+
     @Shadow @Final
     private Minecraft minecraft;
-
-    @Shadow
-    private Component header;
-
-    @Shadow
-    private Component footer;
 
     @Redirect(
             method = "render",
@@ -39,7 +36,7 @@ public abstract class PlayerTabOverlayMixin {
                     opcode = Opcodes.GETFIELD
             )
     )
-    public Component betterplayerlist$redirectHeader(PlayerTabOverlay instance) {
+    public Component redirectHeader(PlayerTabOverlay instance) {
         PlayerListMod mod = PlayerListModProvider.getInstance();
         if (!mod.getSettings().isHeaderEnabled()) {
             return null;
@@ -56,7 +53,7 @@ public abstract class PlayerTabOverlayMixin {
                     opcode = Opcodes.GETFIELD
             )
     )
-    public Component betterplayerlist$redirectFooter(PlayerTabOverlay instance) {
+    public Component redirectFooter(PlayerTabOverlay instance) {
         PlayerListMod mod = PlayerListModProvider.getInstance();
         if (!mod.getSettings().isFooterEnabled()) {
             return null;
@@ -71,7 +68,7 @@ public abstract class PlayerTabOverlayMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    public void betterplayerlist$renderLatencyAsText(GuiGraphics guiGraphics, int width, int x, int y, PlayerInfo playerInfo, CallbackInfo ci) {
+    public void modifyPingIcon(GuiGraphics guiGraphics, int width, int x, int y, PlayerInfo playerInfo, CallbackInfo ci) {
         PlayerListMod mod = PlayerListModProvider.getInstance();
         PlayerListSettings settings = mod.getSettings();
         LatencyDisplayMode mode = settings.getLatencyDisplayMode();
@@ -129,7 +126,7 @@ public abstract class PlayerTabOverlayMixin {
             method = "render",
             constant = @Constant(intValue = 13)
     )
-    public int betterplayerlist$expandSlots(int constant) {
+    public int expandSlotWidth(int constant) {
         PlayerListMod mod = PlayerListModProvider.getInstance();
         PlayerListSettings settings = mod.getSettings();
         LatencyDisplayMode mode = settings.getLatencyDisplayMode();
@@ -163,7 +160,7 @@ public abstract class PlayerTabOverlayMixin {
             at = @At("STORE"),
             name = "showHead"
     )
-    public boolean betterplayerlist$renderPlayerHeads(boolean value) {
+    public boolean manageHeadRendering(boolean value) {
         PlayerListMod mod = PlayerListModProvider.getInstance();
         PlayerListSettings settings = mod.getSettings();
 
