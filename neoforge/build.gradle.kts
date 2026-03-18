@@ -4,7 +4,10 @@ plugins {
 }
 
 repositories {
-    maven("https://maven.neoforged.net/releases/")
+    maven {
+        name = "NeoForge"
+        url = uri("https://maven.neoforged.net/releases/")
+    }
 }
 
 dependencies {

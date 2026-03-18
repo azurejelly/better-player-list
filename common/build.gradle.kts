@@ -4,7 +4,7 @@ plugins {
 }
 
 neoForge {
-    neoFormVersion = "26.1-snapshot-11-1"
+    neoFormVersion = libs.versions.neoforge.neoform.get()
 }
 
 dependencies {
