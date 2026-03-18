@@ -17,7 +17,7 @@ public abstract class GuiMixin {
     private Minecraft minecraft;
 
     @Redirect(
-            method = "renderTabList",
+            method = "extractTabList",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/KeyMapping;isDown()Z"
