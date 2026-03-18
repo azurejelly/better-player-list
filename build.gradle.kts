@@ -1,4 +1,4 @@
-val minecraft: String? = libs.versions.minecraft.get()
+val minecraft: String = libs.versions.minecraft.get()
 
 subprojects {
     apply(plugin = "better-player-list.java-conventions")
