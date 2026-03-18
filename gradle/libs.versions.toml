@@ -15,7 +15,7 @@ neoforge-neoform = "26.1-pre-3-1"
 # Other dependencies
 asm = "9.9.1"
 mixin = "0.8.3"
-modmenu = "18.0.0-alpha.5"
+modmenu = "18.0.0-alpha.6"
 devauth = "1.2.2"
 slf4j = "2.0.17"
 lombok = "1.18.42"
