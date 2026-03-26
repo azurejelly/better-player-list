@@ -43,7 +43,6 @@ tasks {
 
         from(project(":common").sourceSets.main.get().resources)
 
-        // TODO: update minecraft version range on fabric.mod.json once 26.1 releases
         filesMatching("fabric.mod.json") {
             expand(
                 "version" to project.version,

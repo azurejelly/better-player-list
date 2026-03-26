@@ -7,7 +7,6 @@ subprojects {
     version = "${rootProject.version}+${minecraft}"
 
     repositories {
-        mavenLocal()
         mavenCentral()
 
         maven {

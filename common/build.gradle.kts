@@ -4,7 +4,7 @@ plugins {
 }
 
 neoForge {
-    neoFormVersion = libs.versions.neoforge.neoform.get()
+    neoFormVersion = "${libs.versions.minecraft.get()}-1"
 }
 
 dependencies {
