@@ -15,8 +15,8 @@ subprojects {
         }
 
         maven {
-            name = "Terraformers"
-            url = uri("https://maven.terraformersmc.com/")
+            name = "gnomecraft"
+            url = uri("https://maven.gnomecraft.net/repository/maven-terraformers")
         }
 
         maven {

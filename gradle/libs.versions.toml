@@ -1,23 +1,23 @@
 [versions]
-minecraft = "26.1.2"
+minecraft = "26.2"
 
 # Fabric
-fabric-api = "0.146.1+26.1.2"
-fabric-loom = "1.16-SNAPSHOT"
+fabric-api = "0.155.2+26.2"
+fabric-loom = "1.17-SNAPSHOT"
 fabric-loader = "0.18.5"
 
 # NeoForge
-neoforge-main = "26.1.2.29-beta"
+neoforge-main = "26.2.0.25-beta"
 neoforge-loader = "4"
-neoforge-moddev = "2.0.140"
+neoforge-moddev = "2.0.142"
 
 # Other dependencies
 asm = "9.9.1"
 mixin = "0.8.3"
-modmenu = "18.0.0-alpha.8"
+modmenu = "20.0.1"
 devauth = "1.2.2"
 slf4j = "2.0.17"
-lombok = "1.18.42"
+lombok = "1.18.46"
 junit = "5.10.0"
 
 [plugins]

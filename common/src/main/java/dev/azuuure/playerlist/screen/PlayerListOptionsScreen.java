@@ -65,7 +65,7 @@ public final class PlayerListOptionsScreen extends OptionsSubScreen {
                 List.of(
                         Button.builder(Component.translatable("controls.keybinds"), (_) -> {
                             KeyBindsScreen screen = new KeyBindsScreen(this, minecraft.options);
-                            minecraft.setScreen(screen);
+                            minecraft.setScreenAndShow(screen);
                         }).build(),
 
                         CycleButton
