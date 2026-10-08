@@ -1,0 +1,1 @@
+The use of AI and LLMs to contribute to this project is strictly forbidden. This also includes using AI or LLMs to write commits, documentation, issues, or pull requests.
