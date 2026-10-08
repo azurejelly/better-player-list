@@ -1,8 +1,8 @@
 {
   "betterplayerlist.settings.title": "Opciones de la lista de jugadores",
-  "betterplayerlist.settings.server-features": "Características del servidor",
-  "betterplayerlist.settings.controls": "Controles",
-  "betterplayerlist.settings.player-entries": "Entradas de jugadores",
+  "betterplayerlist.settings.server-features": "§l§nCaracterísticas del servidor",
+  "betterplayerlist.settings.controls": "§l§nControles",
+  "betterplayerlist.settings.player-entries": "§l§nEntradas de jugadores",
   "betterplayerlist.settings.header": "Encabezado",
   "betterplayerlist.settings.header.tooltip": "Si se debería mostrar el encabezado (§oheader§r) enviado por el servidor.",
   "betterplayerlist.settings.footer": "Pie de página",

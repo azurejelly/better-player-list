@@ -4,9 +4,7 @@ plugins {
 }
 
 neoForge {
-    // https://projects.neoforged.net/neoforged/neoform
-    val timestamp = 2
-    neoFormVersion = "${libs.versions.minecraft.get()}-${timestamp}"
+    neoFormVersion = "${libs.versions.minecraft.get()}-${libs.versions.timestamp.get()}"
 }
 
 dependencies {

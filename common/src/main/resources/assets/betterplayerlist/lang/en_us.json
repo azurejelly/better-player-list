@@ -1,8 +1,8 @@
 {
   "betterplayerlist.settings.title": "Player List Options",
-  "betterplayerlist.settings.server-features": "Server Features",
-  "betterplayerlist.settings.controls": "Controls",
-  "betterplayerlist.settings.player-entries": "Player Entries",
+  "betterplayerlist.settings.server-features": "§l§nServer Features",
+  "betterplayerlist.settings.controls": "§l§nControls",
+  "betterplayerlist.settings.player-entries": "§l§nPlayer Entries",
   "betterplayerlist.settings.header": "Header",
   "betterplayerlist.settings.header.tooltip": "Whether to show the header sent by the server.",
   "betterplayerlist.settings.footer": "Footer",
